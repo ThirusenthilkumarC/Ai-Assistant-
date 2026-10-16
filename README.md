@@ -1,3 +1,26 @@
+---
+
+## 🚀 Local Development
+
+<div align="center">
+
+### 🌐 Frontend Application
+
+[![Frontend](https://img.shields.io/badge/Frontend-React%20%2B%20Vite-00D4FF?style=for-the-badge&logo=react&logoColor=white)](http://localhost:5173)
+
+**Frontend URL:** http://localhost:5173
+
+### ⚙️ Backend API
+
+[![Backend](https://img.shields.io/badge/Backend-Express.js-7B2FF7?style=for-the-badge&logo=express&logoColor=white)](http://localhost:5000/api)
+
+**Backend API URL:** http://localhost:5000/api
+
+</div>
+
+> ⚠️ **Note:** These links work only on your computer while the frontend and backend servers are running.
+
+---
 <<<<<<< HEAD
 # 🚀 NOVA AI — Personal AI Assistant
 
