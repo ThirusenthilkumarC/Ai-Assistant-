@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
-import { Sparkles, Code2, GraduationCap, HelpCircle, ArrowRight } from 'lucide-react';
-import type { AiState, AssistantMode, ChatMessage, Language } from '../types';
+import { Code2, Compass, Brain, MoreHorizontal, ChevronDown, CheckCircle2, AlertTriangle, XCircle, Menu } from 'lucide-react';
+import type { AiState, AssistantMode, ChatMessage, Language, BackendStatus } from '../types';
 import { AiOrb } from './AiOrb';
 import { ChatMessageBubble } from './ChatMessageBubble';
 
@@ -8,6 +8,7 @@ interface ChatAreaProps {
   messages: ChatMessage[];
   aiState: AiState;
   currentMode: AssistantMode;
+  onSelectMode: (mode: AssistantMode) => void;
   language: Language;
   onSelectSuggestion: (prompt: string, mode?: AssistantMode, lang?: Language) => void;
   onRetryMessage: (content: string) => void;
@@ -16,12 +17,16 @@ interface ChatAreaProps {
   onStopSpeaking: () => void;
   reducedMotion: boolean;
   onOrbClick?: () => void;
+  onOpenSettings: () => void;
+  onOpenMobileMenu?: () => void;
+  backendStatus: BackendStatus;
 }
 
 export const ChatArea: React.FC<ChatAreaProps> = ({
   messages,
   aiState,
   currentMode,
+  onSelectMode,
   language,
   onSelectSuggestion,
   onRetryMessage,
@@ -29,9 +34,13 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
   isSpeaking,
   onStopSpeaking,
   reducedMotion,
-  onOrbClick
+  onOrbClick,
+  onOpenSettings,
+  onOpenMobileMenu,
+  backendStatus
 }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [isModelDropdownOpen, setIsModelDropdownOpen] = React.useState(false);
 
   // Auto-scroll to bottom on new messages or thinking state
   useEffect(() => {
@@ -40,189 +49,271 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
     }
   }, [messages, aiState, reducedMotion]);
 
-  // Suggested prompt cards according to specification:
-  // • Explain a concept
-  // • Help me debug code
-  // • Learn something new
-  // • Answer my question
-  const suggestions = [
+  // Three exact suggested prompt cards matching the reference image
+  const suggestionCards = [
     {
-      id: 'explain-concept',
-      titleEn: 'Explain a concept',
-      descEn: 'Break down complex algorithms, async/await, or design patterns',
-      titleTa: 'ஒரு கருத்தை விளக்குங்கள்',
-      descTa: 'அல்காரிதம்கள் அல்லது தொழில்நுட்ப கருத்துக்கள் எளிய முறையில்',
-      icon: <Code2 size={20} className="text-cyan-400" />,
-      badge: 'CODING',
-      promptEn: 'Explain how async/await and Promises work in JavaScript under the hood with a concise example.',
-      promptTa: 'JavaScript-ல் Promises மற்றும் Async/Await எவ்வாறு செயல்படுகிறது என்பதை எளிய தமிழில் விளக்குங்கள்.',
-      suggestedMode: 'coding' as AssistantMode,
-      borderGlow: 'hover:border-cyan-500/60 hover:shadow-[0_0_25px_rgba(0,229,255,0.18)]'
+      id: 'explain-code',
+      icon: <Code2 size={16} className="text-purple-300" />,
+      titleEn: 'Explain this Code',
+      descEn: 'Can you find the bug in this JavaScript snippet and suggest solutions?',
+      titleTa: 'இந்த குறியீட்டை விளக்குங்கள்',
+      descTa: 'JavaScript குறியீட்டில் உள்ள பிழையைக் கண்டறிந்து சரிசெய்ய முடியுமா?',
+      promptEn: 'Can you explain how this JavaScript snippet works, identify any potential bugs, and suggest a cleaner implementation?\n\n```javascript\nconst data = await fetch("/api/items");\nconst result = data.json();\nreturn result.map(i => i.name);\n```',
+      promptTa: 'இந்த JavaScript குறியீடு எவ்வாறு செயல்படுகிறது என்பதை விளக்கி, இதில் ஏதேனும் பிழை உள்ளதா எனக் கண்டறிந்து சரிசெய்யவும்:\n\n```javascript\nconst data = await fetch("/api/items");\nconst result = data.json();\nreturn result.map(i => i.name);\n```',
+      suggestedMode: 'coding' as AssistantMode
     },
     {
-      id: 'debug-code',
-      titleEn: 'Help me debug code',
-      descEn: 'Identify runtime bugs, memory leaks, and syntax flaws',
-      titleTa: 'குறியீட்டுப் பிழையைத் திருத்துங்கள்',
-      descTa: 'Runtime errors, syntax issues மற்றும் தீர்வுகளை கண்டறிய',
-      icon: <Sparkles size={20} className="text-blue-400" />,
-      badge: 'DEBUG',
-      promptEn: 'Help me debug this TypeScript error: "TypeError: Cannot read properties of undefined (reading \'map\')". How do I handle it safely?',
-      promptTa: 'TypeError: Cannot read properties of undefined என்ற பிழை ஏன் ஏற்படுகிறது? அதைத் தீர்க்கும் வழியை விளக்குங்கள்.',
-      suggestedMode: 'coding' as AssistantMode,
-      borderGlow: 'hover:border-blue-500/60 hover:shadow-[0_0_25px_rgba(59,130,246,0.18)]'
+      id: 'plan-project',
+      icon: <Compass size={16} className="text-purple-300" />,
+      titleEn: 'Plan a Project',
+      descEn: 'Create a practical, step-by-step roadmap for your software idea.',
+      titleTa: 'ஒரு திட்டத்தை வகுக்கவும்',
+      descTa: 'உங்கள் மென்பொருள் யோசனைக்கான நடைமுறை படிநிலைகளை உருவாக்கவும்.',
+      promptEn: 'Create a comprehensive, step-by-step project roadmap to build a modern full-stack web application from scratch with milestones.',
+      promptTa: 'புதிய மென்பொருள் திட்டத்தை தொடங்குவதற்கான படிநிலைகள் மற்றும் திட்ட வரைபடத்தை (Project Roadmap) உருவாக்கவும்.',
+      suggestedMode: 'general' as AssistantMode
     },
     {
-      id: 'learn-new',
-      titleEn: 'Learn something new',
-      descEn: 'Explore neural networks, quantum computing, or CS theory',
-      titleTa: 'புதிய ஒன்றைக் கற்றுக் கொள்ளுங்கள்',
-      descTa: 'Neural Networks அல்லது கணினி அறிவியல் கோட்பாடுகள்',
-      icon: <GraduationCap size={20} className="text-violet-400" />,
-      badge: 'ACADEMIC',
-      promptEn: 'Teach me the core concepts of Neural Networks and Attention mechanisms using an intuitive real-world analogy.',
-      promptTa: 'செயற்கை நுண்ணறிவில் (AI) Machine Learning மற்றும் Deep Learning இடையேயான வித்தியாசத்தை விளக்குங்கள்.',
-      suggestedMode: 'study' as AssistantMode,
-      borderGlow: 'hover:border-violet-500/60 hover:shadow-[0_0_25px_rgba(139,92,246,0.18)]'
-    },
-    {
-      id: 'answer-question',
-      titleEn: 'Answer my question',
-      descEn: 'Ask any question in natural English or fluent Tamil (தமிழ்)',
-      titleTa: 'என் கேள்விக்கு விடையளியுங்கள்',
-      descTa: 'இயற்கையான தமிழ் மற்றும் ஆங்கிலத்தில் எந்த கேள்விக்கும் பதில்',
-      icon: <HelpCircle size={20} className="text-teal-400" />,
-      badge: 'GENERAL',
-      promptEn: 'What is the fundamental difference between concurrency and parallelism in computer systems?',
-      promptTa: 'வணக்கம் NOVA! கணினி அமைப்புகளில் Concurrency மற்றும் Parallelism இடையேயான வேறுபாடு என்ன?',
-      suggestedMode: 'general' as AssistantMode,
-      borderGlow: 'hover:border-teal-500/60 hover:shadow-[0_0_25px_rgba(45,212,191,0.18)]'
+      id: 'brainstorm-ideas',
+      icon: <Brain size={16} className="text-purple-300" />,
+      titleEn: 'Brainstorm Ideas',
+      descEn: 'Discover creative ideas, unique angles, and new possibilities.',
+      titleTa: 'புதிய யோசனைகளை ஆராயுங்கள்',
+      descTa: 'படைப்பாற்றல்மிக்க யோசனைகள் மற்றும் புதிய வாய்ப்புகளை கண்டறியவும்.',
+      promptEn: 'Brainstorm 5 innovative and practical AI-assisted developer tools that solve real productivity bottlenecks today.',
+      promptTa: 'மென்பொருள் உருவாக்குநர்களின் உற்பத்தித்திறனை அதிகரிக்கும் 5 புதுமையான AI கருவிகளுக்கான யோசனைகளை வழங்கவும்.',
+      suggestedMode: 'study' as AssistantMode
     }
   ];
 
+  const getModeLabel = () => {
+    switch (currentMode) {
+      case 'coding':
+        return 'NOVA 4.0e (Coding)';
+      case 'study':
+        return 'NOVA 4.0e (Study)';
+      case 'general':
+      default:
+        return 'NOVA 4.0e';
+    }
+  };
+
   return (
-    <div className="flex-1 overflow-y-auto px-3 sm:px-6 md:px-8 py-6 relative z-10 flex flex-col">
-      {/* When NO messages exist, render Hero Empty State */}
-      {messages.length === 0 ? (
-        <div className="flex-1 flex flex-col items-center justify-center max-w-3xl mx-auto text-center px-2 py-4">
-          {/* Main Animated AI Orb */}
-          <div className="mb-7">
-            <AiOrb
-              state={aiState}
-              size="hero"
-              onClick={onOrbClick}
-              reducedMotion={reducedMotion}
-            />
-          </div>
+    <div className="flex-1 flex flex-col h-full bg-[#0D1020]/90 rounded-2xl md:rounded-[24px] border border-white/[0.08] m-2 md:m-3 p-4 md:p-6 overflow-hidden relative shadow-2xl">
+      {/* Background Subtle Gradient Lighting matching reference */}
+      <div
+        className="absolute inset-0 pointer-events-none rounded-2xl md:rounded-[24px]"
+        style={{
+          background: `
+            radial-gradient(circle at 50% 30%, rgba(109, 40, 217, 0.12) 0%, transparent 60%),
+            radial-gradient(circle at 80% 80%, rgba(36, 59, 104, 0.1) 0%, transparent 50%)
+          `
+        }}
+      />
 
-          {/* Heading */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-2 font-mono">
-            {language === 'ta' ? 'வணக்கம், நான் NOVA.' : "Hello, I'm NOVA."}
-          </h1>
+      {/* TOP HEADER BAR INSIDE MAIN PANEL */}
+      <div className="flex items-center justify-between pb-3 relative z-20 flex-shrink-0">
+        {/* Top-Left: Mobile Menu & Model Selector Pill matching "Nebula 4.0e v" in reference */}
+        <div className="flex items-center gap-2">
+          {onOpenMobileMenu && (
+            <button
+              onClick={onOpenMobileMenu}
+              type="button"
+              className="md:hidden p-1.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.1] text-slate-300"
+              title="Open Sidebar"
+            >
+              <Menu size={16} />
+            </button>
+          )}
 
-          {/* Subtitle & Current Mode Pill */}
-          <p className="text-base sm:text-lg text-slate-400 mb-3 max-w-lg font-light tracking-wide">
-            {language === 'ta'
-              ? 'உங்கள் அறிவார்ந்த AI தோழன் உதவத் தயாராக உள்ளது.'
-              : 'Your intelligent AI companion.'}
-          </p>
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => setIsModelDropdownOpen(prev => !prev)}
+              className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.1] text-xs font-medium text-slate-200 transition-all cursor-pointer shadow-sm"
+            >
+            <span className="tracking-wide">{getModeLabel()}</span>
+            <ChevronDown size={14} className="text-slate-400" />
+          </button>
 
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/80 border border-cyan-500/30 text-xs font-mono text-cyan-300 mb-8 shadow-sm">
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-            <span className="uppercase tracking-wider">{currentMode} Assistant Mode</span>
-          </div>
-
-          {/* Four Interactive Suggestion Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 w-full text-left">
-            {suggestions.map(s => (
-              <div
-                key={s.id}
-                onClick={() =>
-                  onSelectSuggestion(
-                    language === 'ta' ? s.promptTa : s.promptEn,
-                    s.suggestedMode,
-                    language
-                  )
-                }
-                role="button"
-                tabIndex={0}
-                onKeyDown={e => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    onSelectSuggestion(
-                      language === 'ta' ? s.promptTa : s.promptEn,
-                      s.suggestedMode,
-                      language
-                    );
-                  }
+          {/* Model Selector Dropdown Menu */}
+          {isModelDropdownOpen && (
+            <div className="absolute top-10 left-0 w-52 rounded-xl bg-[#141829] border border-white/10 shadow-2xl p-1.5 z-50 text-xs animate-in fade-in zoom-in-95 duration-150">
+              <div className="px-2 py-1 text-[10px] font-mono text-slate-400 uppercase tracking-wider">
+                Assistant Mode
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  onSelectMode('general');
+                  setIsModelDropdownOpen(false);
                 }}
-                className={`p-4 sm:p-5 rounded-2xl glass-panel shimmer-hover transition-all duration-300 cursor-pointer group flex items-start gap-4 border border-cyan-500/20 ${s.borderGlow}`}
+                className={`w-full text-left px-2.5 py-1.5 rounded-lg flex items-center justify-between ${
+                  currentMode === 'general' ? 'bg-purple-900/40 text-purple-200 font-medium' : 'text-slate-300 hover:bg-white/5'
+                }`}
               >
-                <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-700/60 group-hover:scale-110 group-hover:border-cyan-400/50 transition-all flex-shrink-0 shadow-lg">
-                  {s.icon}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between gap-1">
-                    <div className="flex items-center gap-2">
-                      <h3 className="font-semibold text-sm sm:text-base text-slate-100 group-hover:text-cyan-300 transition-colors truncate">
-                        {language === 'ta' ? s.titleTa : s.titleEn}
-                      </h3>
-                      <span className="text-[9px] font-mono tracking-wider px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700 uppercase">
-                        {s.badge}
-                      </span>
-                    </div>
-                    <ArrowRight
-                      size={15}
-                      className="text-slate-500 group-hover:text-cyan-400 group-hover:translate-x-1 transition-all opacity-0 group-hover:opacity-100 flex-shrink-0"
-                    />
-                  </div>
-                  <p className="text-xs text-slate-400 mt-1.5 line-clamp-2 leading-relaxed">
-                    {language === 'ta' ? s.descTa : s.descEn}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      ) : (
-        /* Conversation Message Stream */
-        <div className="max-w-3xl w-full mx-auto space-y-1">
-          {messages.map((msg, index) => (
-            <ChatMessageBubble
-              key={msg.id || index}
-              message={msg}
-              onRetry={onRetryMessage}
-              onSpeak={onSpeakMessage}
-              isSpeakingThis={isSpeaking}
-              onStopSpeak={onStopSpeaking}
-            />
-          ))}
+                <span>NOVA General 4.0e</span>
+                {currentMode === 'general' && <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />}
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  onSelectMode('coding');
+                  setIsModelDropdownOpen(false);
+                }}
+                className={`w-full text-left px-2.5 py-1.5 rounded-lg flex items-center justify-between ${
+                  currentMode === 'coding' ? 'bg-purple-900/40 text-purple-200 font-medium' : 'text-slate-300 hover:bg-white/5'
+                }`}
+              >
+                <span>NOVA Coding Pro</span>
+                {currentMode === 'coding' && <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />}
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  onSelectMode('study');
+                  setIsModelDropdownOpen(false);
+                }}
+                className={`w-full text-left px-2.5 py-1.5 rounded-lg flex items-center justify-between ${
+                  currentMode === 'study' ? 'bg-purple-900/40 text-purple-200 font-medium' : 'text-slate-300 hover:bg-white/5'
+                }`}
+              >
+                <span>NOVA Academic Tutor</span>
+                {currentMode === 'study' && <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />}
+              </button>
 
-          {/* Typing / Thinking Loading Indicator */}
-          {aiState === 'thinking' && (
-            <div className="flex items-start gap-3 my-4 animate-in fade-in duration-200">
-              <div className="w-9 h-9 rounded-full bg-slate-900 border border-violet-500/50 flex items-center justify-center shadow-lg shadow-violet-500/20 overflow-hidden flex-shrink-0">
-                <AiOrb state="thinking" size="sm" reducedMotion={reducedMotion} />
-              </div>
-              <div className="glass-panel-glow rounded-2xl rounded-tl-none p-4 text-xs font-mono text-cyan-300 flex items-center gap-3 border border-cyan-500/30 shadow-xl">
-                {/* Miniature animated sound wave bars */}
-                <div className="flex items-end gap-1 h-4">
-                  <span className="w-1 bg-cyan-400 rounded-full animate-wave-1" />
-                  <span className="w-1 bg-violet-400 rounded-full animate-wave-2" />
-                  <span className="w-1 bg-blue-400 rounded-full animate-wave-3" />
-                  <span className="w-1 bg-cyan-300 rounded-full animate-wave-4" />
-                </div>
-                <span className="tracking-wide">
-                  {language === 'ta'
-                    ? 'NOVA சிந்திக்கிறது மற்றும் பதிலை உருவாக்குகிறது...'
-                    : 'NOVA is synthesizing response...'}
+              <div className="border-t border-white/10 mt-1 pt-1 px-2 py-1 flex items-center gap-1.5 text-[11px] text-slate-400">
+                {backendStatus.configured ? (
+                  <CheckCircle2 size={12} className="text-emerald-400" />
+                ) : backendStatus.connected ? (
+                  <AlertTriangle size={12} className="text-amber-400" />
+                ) : (
+                  <XCircle size={12} className="text-red-400" />
+                )}
+                <span className="truncate">
+                  {backendStatus.configured ? 'Gemini 2.5 Active' : 'Demo Mode Active'}
                 </span>
               </div>
             </div>
           )}
-
-          <div ref={messagesEndRef} className="h-4" />
         </div>
-      )}
+      </div>
+
+        {/* Top-Right: Circular three-dot button matching reference */}
+        <button
+          type="button"
+          onClick={onOpenSettings}
+          className="w-8 h-8 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.1] flex items-center justify-center text-slate-300 hover:text-white transition-colors"
+          title="Settings & Options"
+        >
+          <MoreHorizontal size={15} />
+        </button>
+      </div>
+
+      {/* CENTER HERO SECTION OR CONVERSATION STREAM */}
+      <div className="flex-1 overflow-y-auto px-1 sm:px-4 py-2 relative z-10 flex flex-col justify-start">
+        {messages.length === 0 ? (
+          /* HERO EMPTY STATE — EXACT MATCH TO REFERENCE */
+          <div className="flex-1 flex flex-col items-center justify-center max-w-3xl mx-auto text-center px-2 py-6">
+            {/* Cosmic AI Orb */}
+            <div className="mb-6">
+              <AiOrb
+                state={aiState}
+                size="hero"
+                onClick={onOrbClick}
+                reducedMotion={reducedMotion}
+              />
+            </div>
+
+            {/* Exact Welcome Heading */}
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-normal text-white mb-2 tracking-tight font-sans">
+              Welcome to your cognitive co-pilot
+            </h1>
+
+            {/* Exact Subtitle */}
+            <p className="text-sm sm:text-base text-slate-400 mb-8 max-w-lg leading-relaxed font-normal">
+              {language === 'ta'
+                ? 'நான் NOVA. நீங்கள் என்னிடம் குறியீடு எழுதவோ, திட்டமிடவோ அல்லது புதிய யோசனைகளை ஆராயவோ கேட்கலாம்.'
+                : "I am NOVA. You can ask me to write, code, plan, or explore any idea."}
+            </p>
+
+            {/* Three Suggested Prompt Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 w-full text-left">
+              {suggestionCards.map(card => (
+                <div
+                  key={card.id}
+                  onClick={() =>
+                    onSelectSuggestion(
+                      language === 'ta' ? card.promptTa : card.promptEn,
+                      card.suggestedMode,
+                      language
+                    )
+                  }
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      onSelectSuggestion(
+                        language === 'ta' ? card.promptTa : card.promptEn,
+                        card.suggestedMode,
+                        language
+                      );
+                    }
+                  }}
+                  className="p-4 sm:p-5 rounded-2xl glass-card flex flex-col justify-between cursor-pointer group select-none"
+                >
+                  <div className="flex items-center gap-2.5 mb-2.5">
+                    <div className="w-7 h-7 rounded-lg bg-white/[0.05] border border-white/[0.1] flex items-center justify-center text-purple-300 group-hover:border-purple-400/50 group-hover:scale-105 transition-all">
+                      {card.icon}
+                    </div>
+                    <h3 className="font-medium text-xs sm:text-sm text-slate-100 group-hover:text-purple-300 transition-colors">
+                      {language === 'ta' ? card.titleTa : card.titleEn}
+                    </h3>
+                  </div>
+                  <p className="text-[11px] leading-relaxed text-slate-400 line-clamp-3">
+                    {language === 'ta' ? card.descTa : card.descEn}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          /* ACTIVE CONVERSATION STREAM */
+          <div className="max-w-3xl w-full mx-auto space-y-2 py-2">
+            {messages.map((msg, index) => (
+              <ChatMessageBubble
+                key={msg.id || index}
+                message={msg}
+                onRetry={onRetryMessage}
+                onSpeak={onSpeakMessage}
+                isSpeakingThis={isSpeaking}
+                onStopSpeak={onStopSpeaking}
+              />
+            ))}
+
+            {/* Thinking / Synthesizing State */}
+            {aiState === 'thinking' && (
+              <div className="flex items-start gap-3 my-4 animate-in fade-in duration-200">
+                <div className="w-8 h-8 rounded-full bg-[#121629] border border-purple-500/40 flex items-center justify-center shadow-lg shadow-purple-900/30 overflow-hidden flex-shrink-0">
+                  <AiOrb state="thinking" size="sm" reducedMotion={reducedMotion} />
+                </div>
+                <div className="glass-card rounded-2xl rounded-tl-none p-3.5 text-xs text-purple-200 flex items-center gap-2.5 border border-purple-500/30 shadow-xl">
+                  <div className="flex items-end gap-1 h-3.5">
+                    <span className="w-1 bg-purple-400 rounded-full animate-wave-1" />
+                    <span className="w-1 bg-pink-400 rounded-full animate-wave-2" />
+                    <span className="w-1 bg-indigo-400 rounded-full animate-wave-3" />
+                  </div>
+                  <span className="font-sans text-[11px] text-slate-300">
+                    {language === 'ta' ? 'NOVA பதிலைத் தயாரிக்கிறது...' : 'NOVA is thinking...'}
+                  </span>
+                </div>
+              </div>
+            )}
+
+            <div ref={messagesEndRef} className="h-4" />
+          </div>
+        )}
+      </div>
     </div>
   );
 };

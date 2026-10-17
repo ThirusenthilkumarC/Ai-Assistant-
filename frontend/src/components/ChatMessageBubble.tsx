@@ -54,15 +54,15 @@ export const ChatMessageBubble: React.FC<ChatMessageBubbleProps> = ({
 
   return (
     <div className={`flex w-full my-3.5 ${isUser ? 'justify-end' : 'justify-start'}`}>
-      <div className={`flex gap-3 max-w-[94%] sm:max-w-[85%] md:max-w-[80%] ${isUser ? 'flex-row-reverse' : 'flex-row'}`}>
+      <div className={`flex gap-3 max-w-[94%] sm:max-w-[85%] md:max-w-[82%] ${isUser ? 'flex-row-reverse' : 'flex-row'}`}>
         {/* Avatar */}
         <div className="flex-shrink-0 mt-1">
           {isUser ? (
-            <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-cyan-600 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/25 border border-cyan-400/50 text-white">
-              <User size={18} />
+            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-700 via-indigo-600 to-purple-500 flex items-center justify-center shadow-md shadow-purple-900/30 border border-purple-400/40 text-white">
+              <User size={15} />
             </div>
           ) : (
-            <div className="w-9 h-9 rounded-full bg-slate-900 border border-cyan-500/40 flex items-center justify-center shadow-lg shadow-cyan-500/15 overflow-hidden">
+            <div className="w-8 h-8 rounded-full bg-[#121629] border border-purple-500/30 flex items-center justify-center shadow-md shadow-purple-900/30 overflow-hidden">
               <AiOrb state={isSpeakingThis ? 'speaking' : 'idle'} size="sm" />
             </div>
           )}
@@ -73,17 +73,17 @@ export const ChatMessageBubble: React.FC<ChatMessageBubbleProps> = ({
           {/* Header Tag / Sender Name */}
           <div className={`flex items-center gap-2 mb-1.5 px-1 text-xs text-slate-400 ${isUser ? 'justify-end' : 'justify-start'}`}>
             <span className="font-semibold text-slate-200 tracking-wide font-mono text-[11px]">
-              {isUser ? 'YOU' : 'NOVA AI'}
+              {isUser ? 'YOU' : 'NOVA'}
             </span>
             {message.mode && (
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-cyan-950/70 text-cyan-300 border border-cyan-500/30 uppercase font-mono tracking-wider">
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-950/60 text-purple-300 border border-purple-500/30 uppercase font-mono tracking-wider">
                 {message.mode}
               </span>
             )}
             {message.isDemo && (
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/40 flex items-center gap-1 font-mono">
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30 flex items-center gap-1 font-mono">
                 <AlertCircle size={10} />
-                Demo Mode
+                Demo
               </span>
             )}
             <span className="text-[11px] text-slate-500">{formatTime(message.timestamp)}</span>
@@ -91,18 +91,18 @@ export const ChatMessageBubble: React.FC<ChatMessageBubbleProps> = ({
 
           {/* Bubble Card */}
           <div
-            className={`rounded-2xl p-4 sm:p-5 transition-all text-sm leading-relaxed ${
+            className={`rounded-2xl p-4 sm:p-5 transition-all text-xs sm:text-sm leading-relaxed ${
               isUser
-                ? 'bg-gradient-to-r from-cyan-600/25 via-blue-600/30 to-blue-700/20 border border-cyan-500/40 text-slate-100 rounded-tr-none shadow-xl shadow-cyan-950/20'
+                ? 'bg-gradient-to-r from-purple-900/40 via-indigo-900/40 to-[#1e1b4b]/50 border border-purple-500/30 text-slate-100 rounded-tr-none shadow-xl'
                 : message.isError
-                ? 'bg-red-950/35 border border-red-500/50 text-red-200 rounded-tl-none shadow-xl'
-                : 'glass-panel text-slate-100 rounded-tl-none shadow-xl border border-cyan-500/20 relative before:absolute before:top-4 before:bottom-4 before:left-0 before:w-[2px] before:bg-gradient-to-b before:from-cyan-400 before:to-violet-500 before:rounded-r'
+                ? 'bg-red-950/35 border border-red-500/40 text-red-200 rounded-tl-none shadow-xl'
+                : 'glass-card text-slate-100 rounded-tl-none shadow-xl border border-white/[0.08] relative'
             }`}
           >
             {isUser ? (
               <p className="whitespace-pre-wrap break-words">{message.content}</p>
             ) : (
-              <div className="prose prose-invert max-w-none prose-p:my-2 prose-headings:text-cyan-300 prose-headings:font-semibold prose-a:text-cyan-400 hover:prose-a:underline prose-strong:text-cyan-200 prose-code:text-cyan-300 prose-code:bg-slate-900/90 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:border prose-code:border-cyan-500/20 prose-li:my-1 break-words">
+              <div className="prose prose-invert max-w-none prose-p:my-2 prose-headings:text-purple-200 prose-headings:font-medium prose-a:text-purple-400 hover:prose-a:underline prose-strong:text-purple-200 prose-code:text-purple-300 prose-code:bg-[#0D1020]/90 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:border prose-code:border-purple-500/20 prose-li:my-1 break-words">
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   components={{
@@ -119,7 +119,7 @@ export const ChatMessageBubble: React.FC<ChatMessageBubbleProps> = ({
                       }
 
                       return (
-                        <code className="text-cyan-300 bg-slate-900/90 px-1.5 py-0.5 rounded border border-cyan-500/25 font-mono text-[13px]" {...props}>
+                        <code className="text-purple-300 bg-[#0D1020]/90 px-1.5 py-0.5 rounded border border-purple-500/20 font-mono text-[13px]" {...props}>
                           {children}
                         </code>
                       );
@@ -134,17 +134,15 @@ export const ChatMessageBubble: React.FC<ChatMessageBubbleProps> = ({
 
           {/* Footer Action Buttons */}
           <div className={`flex items-center gap-1.5 mt-2 px-1 ${isUser ? 'justify-end' : 'justify-start'}`}>
-            {/* Copy button */}
             <button
               onClick={handleCopyText}
               type="button"
               title="Copy message"
-              className="p-1.5 rounded-lg text-slate-400 hover:text-cyan-300 hover:bg-slate-800/80 transition-colors"
+              className="p-1.5 rounded-lg text-slate-400 hover:text-purple-300 hover:bg-white/[0.04] transition-colors"
             >
-              {copied ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
+              {copied ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
             </button>
 
-            {/* Read Aloud button (for assistant messages) */}
             {!isUser && !message.isError && (
               <button
                 onClick={handleSpeechToggle}
@@ -152,38 +150,37 @@ export const ChatMessageBubble: React.FC<ChatMessageBubbleProps> = ({
                 title={isSpeakingThis ? 'Stop speaking' : 'Read aloud with voice'}
                 className={`p-1.5 rounded-lg transition-all flex items-center gap-1.5 text-xs ${
                   isSpeakingThis
-                    ? 'text-cyan-400 bg-cyan-950/70 border border-cyan-500/50 shadow-[0_0_12px_rgba(0,229,255,0.3)]'
-                    : 'text-slate-400 hover:text-cyan-300 hover:bg-slate-800/80'
+                    ? 'text-purple-300 bg-purple-950/70 border border-purple-500/40'
+                    : 'text-slate-400 hover:text-purple-300 hover:bg-white/[0.04]'
                 }`}
               >
                 {isSpeakingThis ? (
                   <>
-                    <VolumeX size={14} />
+                    <VolumeX size={13} />
                     <div className="flex items-end gap-0.5 h-3">
-                      <span className="w-0.5 bg-cyan-400 rounded-full animate-wave-1" />
-                      <span className="w-0.5 bg-cyan-300 rounded-full animate-wave-2" />
-                      <span className="w-0.5 bg-cyan-400 rounded-full animate-wave-3" />
+                      <span className="w-0.5 bg-purple-400 rounded-full animate-wave-1" />
+                      <span className="w-0.5 bg-pink-400 rounded-full animate-wave-2" />
+                      <span className="w-0.5 bg-purple-300 rounded-full animate-wave-3" />
                     </div>
-                    <span className="text-[11px] font-mono">Speaking...</span>
+                    <span className="text-[10px] font-mono">Speaking...</span>
                   </>
                 ) : (
                   <>
-                    <Volume2 size={14} />
-                    <span className="text-[11px] font-mono hidden sm:inline text-slate-400 hover:text-cyan-300">Listen</span>
+                    <Volume2 size={13} />
+                    <span className="text-[10px] font-mono hidden sm:inline text-slate-400 hover:text-purple-300">Listen</span>
                   </>
                 )}
               </button>
             )}
 
-            {/* Retry button (if error or retryable) */}
             {!isUser && onRetry && (
               <button
                 onClick={() => onRetry(message.content)}
                 type="button"
                 title="Regenerate response"
-                className="p-1.5 rounded-lg text-slate-400 hover:text-cyan-300 hover:bg-slate-800/80 transition-colors"
+                className="p-1.5 rounded-lg text-slate-400 hover:text-purple-300 hover:bg-white/[0.04] transition-colors"
               >
-                <RotateCw size={14} />
+                <RotateCw size={13} />
               </button>
             )}
           </div>

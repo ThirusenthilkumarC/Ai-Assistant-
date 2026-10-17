@@ -15,69 +15,20 @@ export const AiOrb: React.FC<AiOrbProps> = ({
   onClick,
   reducedMotion = false
 }) => {
-  // Dimensions based on size prop
+  // Dimension maps - exact scale relative to the reference image
   const sizeMap = {
-    sm: {
-      container: 'w-10 h-10',
-      core: 'w-5 h-5',
-      ring1: 'w-8 h-8',
-      ring2: 'w-10 h-10',
-      waveform: 'h-3'
-    },
-    md: {
-      container: 'w-16 h-16',
-      core: 'w-8 h-8',
-      ring1: 'w-12 h-12',
-      ring2: 'w-16 h-16',
-      waveform: 'h-4'
-    },
-    lg: {
-      container: 'w-32 h-32',
-      core: 'w-16 h-16',
-      ring1: 'w-24 h-24',
-      ring2: 'w-32 h-32',
-      waveform: 'h-6'
-    },
-    hero: {
-      container: 'w-48 h-48 sm:w-60 sm:h-60',
-      core: 'w-24 h-24 sm:w-30 sm:h-30',
-      ring1: 'w-36 h-36 sm:w-46 sm:h-46',
-      ring2: 'w-48 h-48 sm:w-60 sm:h-60',
-      waveform: 'h-8'
-    }
+    sm: { container: 'w-8 h-8', sphere: 'w-8 h-8', glow: 'blur-md' },
+    md: { container: 'w-12 h-12', sphere: 'w-12 h-12', glow: 'blur-lg' },
+    lg: { container: 'w-16 h-16', sphere: 'w-16 h-16', glow: 'blur-xl' },
+    hero: { container: 'w-[74px] h-[74px]', sphere: 'w-[74px] h-[74px]', glow: 'blur-2xl' }
   };
 
   const currentSize = sizeMap[size];
 
-  // Visual state glow colors
-  const getGlowColor = () => {
-    switch (state) {
-      case 'listening':
-        return 'rgba(0, 229, 255, 0.88)';
-      case 'thinking':
-        return 'rgba(139, 92, 246, 0.9)';
-      case 'speaking':
-        return 'rgba(59, 130, 246, 0.95)';
-      case 'idle':
-      default:
-        return 'rgba(0, 229, 255, 0.5)';
-    }
-  };
-
-  // State text label
-  const getStateLabel = () => {
-    switch (state) {
-      case 'listening':
-        return 'LISTENING';
-      case 'thinking':
-        return 'PROCESSING';
-      case 'speaking':
-        return 'SPEAKING';
-      case 'idle':
-      default:
-        return 'ONLINE';
-    }
-  };
+  // Visual state styling
+  const isListening = state === 'listening';
+  const isThinking = state === 'thinking';
+  const isSpeaking = state === 'speaking';
 
   return (
     <div
@@ -85,208 +36,120 @@ export const AiOrb: React.FC<AiOrbProps> = ({
       role={onClick ? 'button' : 'presentation'}
       tabIndex={onClick ? 0 : undefined}
       onKeyDown={onClick ? (e) => (e.key === 'Enter' || e.key === ' ' ? onClick() : null) : undefined}
-      className={`relative flex items-center justify-center select-none cursor-pointer group ${currentSize.container}`}
-      title={onClick ? `NOVA Core (${getStateLabel()}) - Click to interact` : `NOVA Core (${getStateLabel()})`}
+      className={`relative flex items-center justify-center select-none cursor-pointer group ${currentSize.container} animate-orb-float`}
+      title={onClick ? `NOVA Orb (${state.toUpperCase()}) - Click to interact` : `NOVA Orb (${state.toUpperCase()})`}
     >
-      {/* 1. Deep Atmospheric Outer Nebula Glow */}
+      {/* 1. Outer Cosmic Nebula Glow Halo */}
       <motion.div
-        className="absolute inset-[-10%] rounded-full blur-3xl pointer-events-none transition-colors duration-700"
+        className={`absolute inset-[-18%] rounded-full pointer-events-none transition-all duration-700 ${currentSize.glow}`}
         animate={
           reducedMotion
-            ? { opacity: 0.5 }
+            ? { opacity: 0.6 }
             : {
-                scale: state === 'listening' ? [1, 1.3, 1] : state === 'speaking' ? [1, 1.25, 1] : [1, 1.12, 1],
-                opacity: state === 'listening' ? [0.65, 0.95, 0.65] : state === 'thinking' ? [0.6, 0.88, 0.6] : [0.4, 0.6, 0.4]
+                scale: isListening ? [1, 1.25, 1] : isSpeaking ? [1, 1.2, 1] : isThinking ? [1, 1.15, 1] : [1, 1.08, 1],
+                opacity: isListening ? [0.75, 1, 0.75] : isThinking ? [0.7, 0.95, 0.7] : [0.55, 0.8, 0.55]
               }
         }
         transition={{
           repeat: Infinity,
-          duration: state === 'thinking' ? 1.4 : state === 'listening' ? 1.6 : 3.8,
+          duration: isThinking ? 1.5 : isListening ? 1.6 : 3.6,
           ease: 'easeInOut'
         }}
         style={{
-          background: `radial-gradient(circle, ${getGlowColor()} 0%, rgba(7, 11, 20, 0) 70%)`
+          background: isListening
+            ? 'radial-gradient(circle, rgba(0, 229, 255, 0.8) 0%, rgba(139, 92, 246, 0.6) 45%, rgba(8, 10, 22, 0) 70%)'
+            : isThinking
+            ? 'radial-gradient(circle, rgba(168, 85, 247, 0.85) 0%, rgba(236, 72, 153, 0.6) 50%, rgba(8, 10, 22, 0) 75%)'
+            : isSpeaking
+            ? 'radial-gradient(circle, rgba(139, 92, 246, 0.85) 0%, rgba(59, 130, 246, 0.6) 50%, rgba(8, 10, 22, 0) 75%)'
+            : 'radial-gradient(circle, rgba(168, 85, 247, 0.7) 0%, rgba(109, 40, 217, 0.5) 45%, rgba(36, 59, 104, 0.3) 65%, rgba(8, 10, 22, 0) 80%)'
         }}
       />
 
-      {/* 2. Concentric Radar Acoustic Ripples (When Listening) */}
-      {state === 'listening' && !reducedMotion && (
+      {/* 2. Concentric Acoustic Ripples (When Listening) */}
+      {isListening && !reducedMotion && (
         <>
-          <div className="absolute inset-0 rounded-full border border-cyan-400/70 animate-radar-sweep pointer-events-none" />
-          <div
-            className="absolute inset-0 rounded-full border border-cyan-300/40 animate-radar-sweep pointer-events-none"
-            style={{ animationDelay: '0.6s' }}
+          <motion.div
+            className="absolute inset-0 rounded-full border border-cyan-400/80 pointer-events-none"
+            initial={{ scale: 0.9, opacity: 0.9 }}
+            animate={{ scale: 1.6, opacity: 0 }}
+            transition={{ repeat: Infinity, duration: 1.6, ease: 'easeOut' }}
           />
-          <div
-            className="absolute inset-0 rounded-full border border-blue-400/30 animate-radar-sweep pointer-events-none"
-            style={{ animationDelay: '1.2s' }}
+          <motion.div
+            className="absolute inset-0 rounded-full border border-purple-400/60 pointer-events-none"
+            initial={{ scale: 0.9, opacity: 0.9 }}
+            animate={{ scale: 1.8, opacity: 0 }}
+            transition={{ repeat: Infinity, duration: 1.6, delay: 0.5, ease: 'easeOut' }}
           />
         </>
       )}
 
-      {/* 3. Outer Gyroscope Ring (Clockwise) with Segmented Ticks */}
-      <motion.div
-        className={`absolute rounded-full border border-dashed pointer-events-none ${currentSize.ring2}`}
-        animate={
-          reducedMotion
-            ? {}
-            : {
-                rotate: 360,
-                scale: state === 'speaking' ? [1, 1.06, 1] : state === 'listening' ? [1, 1.04, 1] : 1
-              }
-        }
-        transition={{
-          rotate: {
-            repeat: Infinity,
-            duration: state === 'thinking' ? 3.5 : 22,
-            ease: 'linear'
-          },
-          scale: {
-            repeat: Infinity,
-            duration: 1.2,
-            ease: 'easeInOut'
-          }
-        }}
+      {/* 3. Outer Crystal Glass Sphere Container */}
+      <div
+        className={`relative rounded-full overflow-hidden shadow-2xl border border-white/20 flex items-center justify-center transition-transform duration-300 group-hover:scale-105 ${currentSize.sphere}`}
         style={{
-          borderTopColor: '#00E5FF',
-          borderRightColor: 'rgba(0, 229, 255, 0.15)',
-          borderBottomColor: '#8B5CF6',
-          borderLeftColor: 'rgba(139, 92, 246, 0.15)',
-          borderWidth: size === 'hero' ? '2px' : '1px'
-        }}
-      />
-
-      {/* 4. Intermediate Reverse Gyroscope Ring (Counter-Clockwise) */}
-      <motion.div
-        className={`absolute rounded-full border pointer-events-none ${currentSize.ring1}`}
-        animate={
-          reducedMotion
-            ? {}
-            : {
-                rotate: -360,
-                scale: state === 'listening' ? [1, 1.08, 1] : 1
-              }
-        }
-        transition={{
-          rotate: {
-            repeat: Infinity,
-            duration: state === 'thinking' ? 2.8 : 15,
-            ease: 'linear'
-          },
-          scale: {
-            repeat: Infinity,
-            duration: 1.5,
-            ease: 'easeInOut'
-          }
-        }}
-        style={{
-          borderTopColor: 'rgba(139, 92, 246, 0.8)',
-          borderRightColor: 'rgba(59, 130, 246, 0.2)',
-          borderBottomColor: 'rgba(0, 229, 255, 0.8)',
-          borderLeftColor: 'rgba(59, 130, 246, 0.2)',
-          borderWidth: '1px'
-        }}
-      />
-
-      {/* 5. Orbiting Quantum Energy Sparks */}
-      {!reducedMotion && (
-        <motion.div
-          className="absolute inset-0 pointer-events-none"
-          animate={{ rotate: 360 }}
-          transition={{
-            repeat: Infinity,
-            duration: state === 'thinking' ? 2.2 : 9,
-            ease: 'linear'
-          }}
-        >
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-cyan-200 shadow-[0_0_14px_#00E5FF]" />
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-violet-300 shadow-[0_0_12px_#8B5CF6]" />
-        </motion.div>
-      )}
-
-      {/* 6. Central 3D Quantum Core Sphere */}
-      <motion.div
-        className={`relative rounded-full shadow-2xl flex items-center justify-center overflow-hidden z-10 transition-transform duration-300 group-hover:scale-105 ${currentSize.core}`}
-        animate={
-          reducedMotion
-            ? {}
-            : {
-                scale:
-                  state === 'listening'
-                    ? [1, 1.15, 1]
-                    : state === 'speaking'
-                    ? [0.94, 1.14, 0.94]
-                    : state === 'thinking'
-                    ? [0.96, 1.06, 0.96]
-                    : [1, 1.05, 1]
-              }
-        }
-        transition={{
-          repeat: Infinity,
-          duration: state === 'speaking' ? 0.9 : state === 'listening' ? 1.3 : 3.2,
-          ease: 'easeInOut'
-        }}
-        style={{
-          background:
-            state === 'thinking'
-              ? 'radial-gradient(circle at 35% 35%, #E0E7FF 0%, #8B5CF6 35%, #3B82F6 70%, #070B14 100%)'
-              : state === 'listening'
-              ? 'radial-gradient(circle at 35% 35%, #ECFEFF 0%, #00E5FF 35%, #0284C7 70%, #070B14 100%)'
-              : state === 'speaking'
-              ? 'radial-gradient(circle at 35% 35%, #F5F3FF 0%, #8B5CF6 35%, #3B82F6 70%, #070B14 100%)'
-              : 'radial-gradient(circle at 35% 35%, #A5F3FC 0%, #00E5FF 30%, #2563EB 70%, #070B14 100%)',
-          boxShadow: `0 0 35px ${getGlowColor()}, inset 0 0 20px rgba(255,255,255,0.45)`
+          boxShadow: '0 0 25px rgba(139, 92, 246, 0.5), inset 0 0 15px rgba(0, 0, 0, 0.8)'
         }}
       >
-        {/* Specular Hologram Sheen */}
-        <div className="absolute inset-0 opacity-50 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white/70 via-transparent to-transparent pointer-events-none" />
+        {/* A. Swirling Cosmic Galaxy Interior */}
+        <div
+          className={`absolute inset-[-20%] rounded-full pointer-events-none ${
+            isThinking ? 'animate-cosmic-swirl-fast' : 'animate-cosmic-swirl'
+          }`}
+          style={{
+            background:
+              'radial-gradient(circle at 35% 35%, #F472B6 0%, #A855F7 25%, #6D28D9 50%, #1E1B4B 75%, #080A16 100%)',
+            backgroundBlendMode: 'screen',
+            filter: 'contrast(125%) saturate(140%)'
+          }}
+        >
+          {/* Swirling Nebula Galaxy Dust */}
+          <div
+            className="absolute inset-0 opacity-75"
+            style={{
+              backgroundImage: `
+                radial-gradient(circle at 60% 40%, rgba(255, 255, 255, 0.85) 0%, rgba(236, 72, 153, 0.6) 18%, transparent 40%),
+                radial-gradient(circle at 30% 70%, rgba(0, 229, 255, 0.7) 0%, rgba(99, 102, 241, 0.5) 25%, transparent 50%),
+                radial-gradient(circle at 75% 65%, rgba(217, 70, 239, 0.8) 0%, transparent 35%)
+              `
+            }}
+          />
+        </div>
 
-        {/* Dynamic Center Quantum Node */}
-        <motion.div
-          className="w-3.5 h-3.5 rounded-full bg-white shadow-[0_0_16px_#ffffff] z-20 pointer-events-none"
-          animate={
-            reducedMotion
-              ? {}
-              : {
-                  scale: state === 'thinking' ? [0.8, 1.4, 0.8] : [0.9, 1.2, 0.9],
-                  opacity: state === 'listening' ? [0.8, 1, 0.8] : [0.85, 1, 0.85]
-                }
-          }
-          transition={{
-            repeat: Infinity,
-            duration: state === 'thinking' ? 0.8 : 2,
-            ease: 'easeInOut'
+        {/* B. Quantum Star Nodes / Cosmic Dust Particles */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-[28%] left-[34%] w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_#ffffff]" />
+          <div className="absolute top-[52%] left-[62%] w-1 h-1 rounded-full bg-pink-200 shadow-[0_0_6px_#f472b6]" />
+          <div className="absolute top-[68%] left-[38%] w-1 h-1 rounded-full bg-cyan-200 shadow-[0_0_6px_#00e5ff]" />
+        </div>
+
+        {/* C. Crystal Glass 3D Specular Highlight (The Glass Bubble Sheen) */}
+        <div
+          className="absolute inset-0 rounded-full pointer-events-none"
+          style={{
+            background:
+              'radial-gradient(ellipse at 32% 22%, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.25) 20%, transparent 45%)'
           }}
         />
-      </motion.div>
 
-      {/* 7. Live Soundwave Bars (When Listening or Speaking) for Hero size */}
-      {size === 'hero' && (state === 'listening' || state === 'speaking') && (
-        <div className="absolute -top-7 flex items-end justify-center gap-1.5 h-6 z-20 pointer-events-none">
-          <span className="w-1 bg-cyan-400 rounded-full animate-wave-1 shadow-[0_0_6px_#00E5FF]" />
-          <span className="w-1 bg-blue-400 rounded-full animate-wave-2 shadow-[0_0_6px_#3B82F6]" />
-          <span className="w-1 bg-violet-400 rounded-full animate-wave-3 shadow-[0_0_6px_#8B5CF6]" />
-          <span className="w-1 bg-cyan-300 rounded-full animate-wave-4 shadow-[0_0_6px_#00E5FF]" />
-          <span className="w-1 bg-blue-400 rounded-full animate-wave-2 shadow-[0_0_6px_#3B82F6]" />
-        </div>
-      )}
+        {/* D. Inner Shadow Rim to Give Depth & Curvature */}
+        <div
+          className="absolute inset-0 rounded-full pointer-events-none"
+          style={{
+            boxShadow:
+              'inset 0 -6px 12px rgba(8, 10, 22, 0.9), inset 0 2px 4px rgba(255, 255, 255, 0.4), inset 0 0 10px rgba(109, 40, 217, 0.5)'
+          }}
+        />
+      </div>
 
-      {/* 8. State Badge for Hero size */}
-      {size === 'hero' && (
-        <div className="absolute -bottom-8 flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-950/90 border border-cyan-500/35 backdrop-blur-md shadow-xl pointer-events-none">
-          <span
-            className={`w-2 h-2 rounded-full ${
-              state === 'listening'
-                ? 'bg-cyan-400 animate-ping'
-                : state === 'thinking'
-                ? 'bg-violet-400 animate-pulse'
-                : state === 'speaking'
-                ? 'bg-blue-400 animate-bounce'
-                : 'bg-emerald-400 shadow-[0_0_8px_#10B981]'
-            }`}
-          />
-          <span className="text-[11px] font-mono tracking-widest uppercase text-cyan-200 font-semibold">
-            {getStateLabel()}
+      {/* 4. Miniature Audio Waveform Pill when Listening or Speaking */}
+      {(isListening || isSpeaking) && size === 'hero' && (
+        <div className="absolute -bottom-6 flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#121629]/90 border border-purple-500/40 shadow-lg pointer-events-none">
+          <span className="w-1 bg-cyan-400 rounded-full animate-wave-1" />
+          <span className="w-1 bg-purple-400 rounded-full animate-wave-2" />
+          <span className="w-1 bg-pink-400 rounded-full animate-wave-3" />
+          <span className="text-[10px] font-mono text-purple-200 uppercase tracking-wider ml-1">
+            {isListening ? 'Listening' : 'Speaking'}
           </span>
         </div>
       )}

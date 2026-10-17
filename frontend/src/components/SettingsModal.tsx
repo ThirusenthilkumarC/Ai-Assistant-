@@ -56,16 +56,16 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/75 backdrop-blur-md">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md">
       <div
-        className="w-full max-w-xl max-h-[90vh] flex flex-col rounded-2xl glass-panel-glow bg-[#0B1220]/95 border border-cyan-500/30 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200"
+        className="w-full max-w-xl max-h-[90vh] flex flex-col rounded-2xl bg-[#0D1020] border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.8),_0_0_40px_rgba(109,40,217,0.2)] overflow-hidden animate-in fade-in zoom-in-95 duration-200"
         role="dialog"
         aria-modal="true"
       >
         {/* Modal Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-cyan-500/20">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.08] bg-[#0A0D1B]">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
+            <div className="p-2 rounded-xl bg-purple-500/20 text-purple-300 border border-purple-500/30">
               <Sliders size={18} />
             </div>
             <div>
@@ -78,20 +78,20 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
           <button
             onClick={onClose}
             type="button"
-            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-colors"
           >
-            <X size={20} />
+            <X size={18} />
           </button>
         </div>
 
         {/* Modal Tabs */}
-        <div className="flex items-center px-6 border-b border-cyan-500/15 gap-4 overflow-x-auto text-xs font-medium">
+        <div className="flex items-center px-6 border-b border-white/[0.08] gap-4 overflow-x-auto text-xs font-medium bg-[#0B0E1E]">
           <button
             onClick={() => setActiveTab('general')}
             type="button"
             className={`py-3 border-b-2 transition-all flex items-center gap-1.5 whitespace-nowrap ${
               activeTab === 'general'
-                ? 'border-cyan-400 text-cyan-300'
+                ? 'border-purple-400 text-purple-300'
                 : 'border-transparent text-slate-400 hover:text-slate-200'
             }`}
           >
@@ -103,7 +103,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             type="button"
             className={`py-3 border-b-2 transition-all flex items-center gap-1.5 whitespace-nowrap ${
               activeTab === 'voice'
-                ? 'border-cyan-400 text-cyan-300'
+                ? 'border-purple-400 text-purple-300'
                 : 'border-transparent text-slate-400 hover:text-slate-200'
             }`}
           >
@@ -115,7 +115,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             type="button"
             className={`py-3 border-b-2 transition-all flex items-center gap-1.5 whitespace-nowrap ${
               activeTab === 'ai'
-                ? 'border-cyan-400 text-cyan-300'
+                ? 'border-purple-400 text-purple-300'
                 : 'border-transparent text-slate-400 hover:text-slate-200'
             }`}
           >
@@ -127,7 +127,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             type="button"
             className={`py-3 border-b-2 transition-all flex items-center gap-1.5 whitespace-nowrap ${
               activeTab === 'about'
-                ? 'border-cyan-400 text-cyan-300'
+                ? 'border-purple-400 text-purple-300'
                 : 'border-transparent text-slate-400 hover:text-slate-200'
             }`}
           >
@@ -152,8 +152,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                     onClick={() => onUpdateSettings({ language: 'en' })}
                     className={`p-3 rounded-xl border text-left transition-all ${
                       settings.language === 'en'
-                        ? 'bg-cyan-500/20 border-cyan-400 text-cyan-200 shadow-md shadow-cyan-950/20'
-                        : 'bg-slate-900/70 border-slate-700/60 text-slate-300 hover:border-slate-600'
+                        ? 'bg-purple-900/30 border-purple-400 text-purple-200 shadow-md shadow-purple-950/40'
+                        : 'bg-[#141728]/70 border-white/[0.08] text-slate-300 hover:border-white/20'
                     }`}
                   >
                     <div className="font-semibold text-sm">English</div>
@@ -164,8 +164,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                     onClick={() => onUpdateSettings({ language: 'ta' })}
                     className={`p-3 rounded-xl border text-left transition-all ${
                       settings.language === 'ta'
-                        ? 'bg-cyan-500/20 border-cyan-400 text-cyan-200 shadow-md shadow-cyan-950/20'
-                        : 'bg-slate-900/70 border-slate-700/60 text-slate-300 hover:border-slate-600'
+                        ? 'bg-purple-900/30 border-purple-400 text-purple-200 shadow-md shadow-purple-950/40'
+                        : 'bg-[#141728]/70 border-white/[0.08] text-slate-300 hover:border-white/20'
                     }`}
                   >
                     <div className="font-semibold text-sm">தமிழ் (Tamil)</div>
@@ -182,33 +182,33 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                 <select
                   value={settings.mode}
                   onChange={e => onUpdateSettings({ mode: e.target.value as AssistantMode })}
-                  className="w-full px-3 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700/80 text-slate-200 focus:outline-none focus:border-cyan-500"
+                  className="w-full px-3 py-2.5 rounded-xl bg-[#141728] border border-white/[0.1] text-slate-200 focus:outline-none focus:border-purple-400"
                 >
-                  <option value="general">AI Assistant (General Purpose)</option>
-                  <option value="coding">Coding Assistant (Software & Debugging)</option>
-                  <option value="study">Study Assistant (Computer Science & Academia)</option>
+                  <option value="general">NOVA AI 4.0e (General Assistance)</option>
+                  <option value="coding">NOVA Coding Pro (Programming & Bugs)</option>
+                  <option value="study">NOVA Academic Tutor (Computer Science & Academia)</option>
                 </select>
               </div>
 
               {/* Reduced Motion Toggle */}
-              <div className="flex items-center justify-between p-3.5 rounded-xl bg-slate-900/70 border border-slate-700/60">
+              <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#141728]/70 border border-white/[0.08]">
                 <div>
                   <div className="font-medium text-slate-200 text-sm">Reduced Motion</div>
-                  <div className="text-xs text-slate-400">Reduce gyroscope spins and pulse animations</div>
+                  <div className="text-xs text-slate-400">Reduce cosmic swirls and pulse animations</div>
                 </div>
                 <input
                   type="checkbox"
                   checked={settings.reducedMotion}
                   onChange={e => onUpdateSettings({ reducedMotion: e.target.checked })}
-                  className="w-4 h-4 rounded text-cyan-500 focus:ring-0 bg-slate-800 border-slate-700 cursor-pointer"
+                  className="w-4 h-4 rounded text-purple-600 focus:ring-0 bg-[#0A0D1A] border-slate-700 cursor-pointer"
                 />
               </div>
 
               {/* Data & History Controls */}
-              <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-700/60 space-y-3">
+              <div className="p-4 rounded-xl bg-[#141728]/80 border border-white/[0.08] space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="font-medium text-slate-200 text-sm">Local Conversation Storage</span>
-                  <span className="text-xs font-mono text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-500/30">
+                  <span className="font-medium text-slate-200 text-sm">Local Storage History</span>
+                  <span className="text-xs font-mono text-purple-300 bg-purple-950/60 px-2 py-0.5 rounded border border-purple-500/30">
                     {totalConversations} Saved {totalConversations === 1 ? 'Chat' : 'Chats'}
                   </span>
                 </div>
@@ -219,14 +219,14 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                   <button
                     onClick={onExportData}
                     type="button"
-                    className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200 border border-slate-600 transition-colors"
+                    className="px-3 py-1.5 rounded-lg bg-white/[0.06] hover:bg-white/[0.1] text-xs font-medium text-slate-200 border border-white/[0.1] transition-colors"
                   >
                     Export All Chats (JSON)
                   </button>
                   <button
                     onClick={onClearHistory}
                     type="button"
-                    className="px-3 py-1.5 rounded-lg bg-red-950/40 hover:bg-red-900/60 text-xs font-medium text-red-300 border border-red-500/40 transition-colors flex items-center gap-1.5"
+                    className="px-3 py-1.5 rounded-lg bg-red-950/40 hover:bg-red-900/60 text-xs font-medium text-red-300 border border-red-500/30 transition-colors flex items-center gap-1.5"
                   >
                     <Trash2 size={12} />
                     Clear All Chats
@@ -240,7 +240,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
           {activeTab === 'voice' && (
             <div className="space-y-5">
               {/* Voice output toggle */}
-              <div className="flex items-center justify-between p-3.5 rounded-xl bg-slate-900/70 border border-slate-700/60">
+              <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#141728]/70 border border-white/[0.08]">
                 <div>
                   <div className="font-medium text-slate-200 text-sm">Enable Spoken Responses</div>
                   <div className="text-xs text-slate-400">Read assistant responses aloud automatically</div>
@@ -253,7 +253,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                       voice: { ...settings.voice, enabled: e.target.checked }
                     })
                   }
-                  className="w-4 h-4 rounded text-cyan-500 focus:ring-0 bg-slate-800 border-slate-700 cursor-pointer"
+                  className="w-4 h-4 rounded text-purple-600 focus:ring-0 bg-[#0A0D1A] border-slate-700 cursor-pointer"
                 />
               </div>
 
@@ -269,7 +269,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                       voice: { ...settings.voice, voiceURI: e.target.value }
                     })
                   }
-                  className="w-full px-3 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700/80 text-slate-200 focus:outline-none focus:border-cyan-500 text-xs font-mono"
+                  className="w-full px-3 py-2.5 rounded-xl bg-[#141728] border border-white/[0.1] text-slate-200 focus:outline-none focus:border-purple-400 text-xs font-mono"
                 >
                   <option value="">Default (Auto-select based on language)</option>
                   {availableVoices.map(voice => (
@@ -287,7 +287,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               <div>
                 <div className="flex justify-between text-xs mb-1.5">
                   <span className="text-slate-300 font-medium">Speech Rate</span>
-                  <span className="font-mono text-cyan-400">{settings.voice.rate}x</span>
+                  <span className="font-mono text-purple-300">{settings.voice.rate}x</span>
                 </div>
                 <input
                   type="range"
@@ -300,7 +300,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                       voice: { ...settings.voice, rate: parseFloat(e.target.value) }
                     })
                   }
-                  className="w-full accent-cyan-400 cursor-pointer"
+                  className="w-full accent-purple-500 cursor-pointer"
                 />
               </div>
 
@@ -308,7 +308,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               <div>
                 <div className="flex justify-between text-xs mb-1.5">
                   <span className="text-slate-300 font-medium">Voice Pitch</span>
-                  <span className="font-mono text-cyan-400">{settings.voice.pitch}</span>
+                  <span className="font-mono text-purple-300">{settings.voice.pitch}</span>
                 </div>
                 <input
                   type="range"
@@ -321,7 +321,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                       voice: { ...settings.voice, pitch: parseFloat(e.target.value) }
                     })
                   }
-                  className="w-full accent-cyan-400 cursor-pointer"
+                  className="w-full accent-purple-500 cursor-pointer"
                 />
               </div>
             </div>
@@ -330,8 +330,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
           {/* TAB 3: AI Provider & Setup */}
           {activeTab === 'ai' && (
             <div className="space-y-4">
-              {/* Connection Status Card */}
-              <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-700/60 space-y-3">
+              <div className="p-4 rounded-xl bg-[#141728]/80 border border-white/[0.08] space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     {backendStatus.connected ? (
@@ -355,23 +354,23 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                     onClick={handleTestConnection}
                     disabled={isTestingStatus}
                     type="button"
-                    className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs flex items-center gap-1 border border-slate-600 transition-colors"
+                    className="p-1.5 rounded-lg bg-white/[0.06] hover:bg-white/[0.1] text-slate-300 text-xs flex items-center gap-1 border border-white/[0.1] transition-colors"
                   >
                     <RefreshCw size={12} className={isTestingStatus ? 'animate-spin' : ''} />
                     Test Connection
                   </button>
                 </div>
 
-                <div className="text-xs text-slate-300 font-mono space-y-1 bg-slate-950/70 p-3 rounded-lg border border-slate-800">
-                  <div>Provider: <span className="text-cyan-400">{backendStatus.provider}</span></div>
-                  <div>Model: <span className="text-cyan-400">{backendStatus.model}</span></div>
+                <div className="text-xs text-slate-300 font-mono space-y-1 bg-[#0A0D1B] p-3 rounded-lg border border-white/[0.05]">
+                  <div>Provider: <span className="text-purple-300">{backendStatus.provider}</span></div>
+                  <div>Model: <span className="text-purple-300">{backendStatus.model}</span></div>
                   <div>Status Info: <span className="text-slate-400">{backendStatus.message}</span></div>
                 </div>
               </div>
 
               {/* Instructions on how to add API Key */}
-              <div className="p-4 rounded-xl bg-cyan-950/20 border border-cyan-500/30 space-y-2.5">
-                <div className="flex items-center gap-2 text-cyan-300 font-semibold text-xs font-mono uppercase tracking-wider">
+              <div className="p-4 rounded-xl bg-purple-950/20 border border-purple-500/30 space-y-2.5">
+                <div className="flex items-center gap-2 text-purple-300 font-semibold text-xs font-mono uppercase tracking-wider">
                   <Key size={14} />
                   How to Enable Live Gemini AI
                 </div>
@@ -382,24 +381,21 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                       href="https://aistudio.google.com/"
                       target="_blank"
                       rel="noreferrer"
-                      className="text-cyan-400 hover:underline inline-flex items-center gap-1 font-mono"
+                      className="text-purple-300 hover:underline inline-flex items-center gap-1 font-mono"
                     >
                       Google AI Studio <ExternalLink size={10} />
                     </a>
                   </li>
                   <li>
-                    Open the file <code className="text-cyan-300 bg-slate-900 px-1 py-0.5 rounded font-mono">backend/.env</code> in your editor.
+                    Open the file <code className="text-purple-300 bg-[#0A0D1A] px-1 py-0.5 rounded font-mono">backend/.env</code> in your editor.
                   </li>
                   <li>
-                    Add your key: <code className="text-cyan-300 bg-slate-900 px-1 py-0.5 rounded font-mono">GEMINI_API_KEY=your_key_here</code>
+                    Add your key: <code className="text-purple-300 bg-[#0A0D1A] px-1 py-0.5 rounded font-mono">GEMINI_API_KEY=your_key_here</code>
                   </li>
                   <li>
                     Restart or reload the backend, then click <strong>Test Connection</strong> above!
                   </li>
                 </ol>
-                <p className="text-[11px] text-slate-400 italic">
-                  * Note: For security, API keys are kept strictly on the backend and never exposed to the frontend browser.
-                </p>
               </div>
             </div>
           )}
@@ -407,14 +403,14 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
           {/* TAB 4: About NOVA AI */}
           {activeTab === 'about' && (
             <div className="space-y-4 text-center py-2">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-cyan-500 via-blue-600 to-violet-600 flex items-center justify-center mx-auto shadow-[0_0_30px_rgba(0,229,255,0.4)]">
-                <Sparkles size={32} className="text-white" />
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-purple-700 via-indigo-600 to-pink-500 flex items-center justify-center mx-auto shadow-[0_0_30px_rgba(139,92,246,0.5)]">
+                <Sparkles size={28} className="text-white" />
               </div>
 
               <div>
-                <h3 className="text-lg font-bold text-white font-mono tracking-wider">NOVA AI</h3>
-                <p className="text-xs text-cyan-400 font-mono mt-0.5">
-                  "Your Voice. Your Intelligence. Your Assistant."
+                <h3 className="text-base font-bold text-white font-mono tracking-wider">NOVA AI</h3>
+                <p className="text-xs text-purple-300 font-mono mt-0.5">
+                  "Welcome to your cognitive co-pilot"
                 </p>
               </div>
 
@@ -422,7 +418,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                 NOVA AI is a futuristic personal assistant application combining real-time AI, voice synthesis, speech recognition, and dedicated assistance modes for programming and academic learning.
               </p>
 
-              <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-700/60 text-xs text-slate-300 space-y-1.5 text-left max-w-sm mx-auto">
+              <div className="p-4 rounded-xl bg-[#141728]/80 border border-white/[0.08] text-xs text-slate-300 space-y-1.5 text-left max-w-sm mx-auto">
                 <div className="flex justify-between">
                   <span className="text-slate-400">Author:</span>
                   <span className="font-medium text-white">Thirusenthilkumar C</span>
@@ -433,18 +429,14 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                     href="https://github.com/ThirusenthilkumarC"
                     target="_blank"
                     rel="noreferrer"
-                    className="text-cyan-400 hover:underline flex items-center gap-1 font-mono"
+                    className="text-purple-300 hover:underline flex items-center gap-1 font-mono"
                   >
                     ThirusenthilkumarC <ExternalLink size={10} />
                   </a>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-400">Stack:</span>
-                  <span className="text-slate-200">React, TypeScript, Express, Gemini</span>
-                </div>
-                <div className="flex justify-between">
                   <span className="text-slate-400">Version:</span>
-                  <span className="text-cyan-400 font-mono">1.0.0</span>
+                  <span className="text-purple-300 font-mono">2.0.0 (Nebula Edition)</span>
                 </div>
               </div>
             </div>
@@ -452,11 +444,11 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
         </div>
 
         {/* Modal Footer */}
-        <div className="px-6 py-3.5 bg-slate-950/80 border-t border-cyan-500/15 flex justify-end">
+        <div className="px-6 py-3.5 bg-[#0A0D1B] border-t border-white/[0.08] flex justify-end">
           <button
             onClick={onClose}
             type="button"
-            className="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:brightness-110 text-white text-xs font-semibold shadow-md transition-all font-mono"
+            className="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:brightness-110 text-white text-xs font-semibold shadow-md transition-all font-mono"
           >
             Done
           </button>

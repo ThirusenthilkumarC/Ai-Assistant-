@@ -2,20 +2,25 @@
 
 @layer base {
   :root {
-    --bg-main: #070B14;
-    --bg-secondary: #0B1220;
-    --cyan-primary: #00E5FF;
-    --blue-electric: #3B82F6;
+    --bg-app: #080A16;
+    --surface-primary: #0D1020;
+    --surface-secondary: #171A2A;
+    --purple-primary: #6D28D9;
     --violet-accent: #8B5CF6;
+    --electric-purple: #A855F7;
+    --blue-glow: #243B68;
     --text-primary: #F8FAFC;
-    --text-secondary: #94A3B8;
+    --text-secondary: #A1A1AA;
+    --border-subtle: rgba(255, 255, 255, 0.12);
   }
 
   body {
-    background-color: var(--bg-main);
+    background-color: var(--bg-app);
     color: var(--text-primary);
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
     overflow-x: hidden;
+    margin: 0;
+    padding: 0;
   }
 
   code, pre {
@@ -23,201 +28,143 @@
   }
 }
 
-/* Premium Futuristic Glassmorphism Utilities */
-.glass-panel {
-  background: rgba(11, 18, 32, 0.72);
+/* Glassmorphism Panels Matching Reference */
+.glass-surface {
+  background: rgba(13, 16, 32, 0.75);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 229, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.glass-panel-glow {
-  background: rgba(11, 18, 32, 0.88);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(0, 229, 255, 0.28);
-  box-shadow: 0 0 30px rgba(0, 229, 255, 0.1), inset 0 0 20px rgba(0, 229, 255, 0.04);
+.glass-surface-hover:hover {
+  background: rgba(23, 26, 42, 0.85);
+  border-color: rgba(139, 92, 246, 0.35);
+  box-shadow: 0 0 25px rgba(109, 40, 217, 0.15);
 }
 
-.glass-input {
-  background: rgba(11, 18, 32, 0.75);
+.glass-card {
+  background: rgba(18, 22, 41, 0.65);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(0, 229, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.09);
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.glass-input:focus-within, .glass-input:focus {
-  border-color: rgba(0, 229, 255, 0.6);
-  box-shadow: 0 0 25px rgba(0, 229, 255, 0.2), inset 0 0 10px rgba(0, 229, 255, 0.06);
+.glass-card:hover {
+  background: rgba(24, 29, 52, 0.8);
+  border-color: rgba(139, 92, 246, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(109, 40, 217, 0.18);
 }
 
-.neon-border {
-  border: 1px solid rgba(0, 229, 255, 0.35);
+.glass-composer {
+  background: rgba(19, 23, 40, 0.78);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: all 0.25s ease;
 }
 
-.neon-border-hover:hover {
-  border-color: rgba(0, 229, 255, 0.7);
-  box-shadow: 0 0 25px rgba(0, 229, 255, 0.25);
+.glass-composer:focus-within {
+  border-color: rgba(139, 92, 246, 0.45);
+  box-shadow: 0 10px 40px rgba(109, 40, 217, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
-.neon-text-glow {
-  text-shadow: 0 0 14px rgba(0, 229, 255, 0.7);
-}
-
-.neon-violet-glow {
-  text-shadow: 0 0 14px rgba(139, 92, 246, 0.7);
-}
-
-/* Custom Sleek Scrollbar */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(7, 11, 20, 0.7);
+  background: rgba(8, 10, 22, 0.5);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 229, 255, 0.25);
+  background: rgba(139, 92, 246, 0.25);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 229, 255, 0.5);
+  background: rgba(139, 92, 246, 0.5);
 }
 
-/* Cyber Grid & Ambient Canvas */
-.bg-grid-pattern {
-  background-size: 40px 40px;
-  background-image: 
-    linear-gradient(to right, rgba(0, 229, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 229, 255, 0.035) 1px, transparent 1px);
+/* Cosmic Nebula Orb Animations */
+@keyframes orbFloat {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-6px) scale(1.02);
+  }
 }
 
-/* Subtle Shimmer for High-Tech Cards */
-@keyframes cardShimmer {
+@keyframes cosmicSwirl {
   0% {
-    background-position: -200% 0;
+    transform: rotate(0deg);
   }
   100% {
-    background-position: 200% 0;
+    transform: rotate(360deg);
   }
 }
 
-.shimmer-hover:hover {
-  background-image: linear-gradient(
-    110deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(0, 229, 255, 0.08) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  background-size: 200% 100%;
-  animation: cardShimmer 1.8s infinite;
+@keyframes cosmicPulse {
+  0%, 100% {
+    opacity: 0.6;
+    filter: drop-shadow(0 0 25px rgba(139, 92, 246, 0.7)) drop-shadow(0 0 45px rgba(168, 85, 247, 0.4));
+  }
+  50% {
+    opacity: 0.95;
+    filter: drop-shadow(0 0 35px rgba(168, 85, 247, 0.9)) drop-shadow(0 0 60px rgba(236, 72, 153, 0.5));
+  }
+}
+
+.animate-orb-float {
+  animation: orbFloat 4.5s ease-in-out infinite;
+}
+
+.animate-cosmic-swirl {
+  animation: cosmicSwirl 25s linear infinite;
+}
+
+.animate-cosmic-swirl-fast {
+  animation: cosmicSwirl 8s linear infinite;
+}
+
+.animate-cosmic-pulse {
+  animation: cosmicPulse 3.5s ease-in-out infinite;
 }
 
 /* Audio Waveform Equalizer Keyframes */
 @keyframes audioWave1 {
-  0%, 100% { height: 6px; }
-  50% { height: 22px; }
+  0%, 100% { height: 5px; }
+  50% { height: 18px; }
 }
 
 @keyframes audioWave2 {
-  0%, 100% { height: 16px; }
-  50% { height: 8px; }
+  0%, 100% { height: 14px; }
+  50% { height: 6px; }
 }
 
 @keyframes audioWave3 {
-  0%, 100% { height: 10px; }
-  50% { height: 26px; }
-}
-
-@keyframes audioWave4 {
-  0%, 100% { height: 20px; }
-  50% { height: 12px; }
+  0%, 100% { height: 8px; }
+  50% { height: 20px; }
 }
 
 .animate-wave-1 { animation: audioWave1 0.75s ease-in-out infinite; }
 .animate-wave-2 { animation: audioWave2 0.65s ease-in-out infinite; }
 .animate-wave-3 { animation: audioWave3 0.85s ease-in-out infinite; }
-.animate-wave-4 { animation: audioWave4 0.7s ease-in-out infinite; }
-
-/* AI Orb & Holographic Gyroscope Keyframes */
-@keyframes spinSlow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes spinReverse {
-  from { transform: rotate(360deg); }
-  to { transform: rotate(0deg); }
-}
-
-@keyframes pulseGlow {
-  0%, 100% {
-    opacity: 0.55;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.9;
-    transform: scale(1.06);
-  }
-}
-
-@keyframes pulseSpeaking {
-  0%, 100% {
-    transform: scale(0.96);
-    filter: drop-shadow(0 0 20px rgba(0, 229, 255, 0.65));
-  }
-  50% {
-    transform: scale(1.1);
-    filter: drop-shadow(0 0 36px rgba(139, 92, 246, 0.95));
-  }
-}
-
-@keyframes radarSweep {
-  0% { transform: scale(0.85); opacity: 0.9; }
-  100% { transform: scale(1.6); opacity: 0; }
-}
-
-.animate-spin-slow {
-  animation: spinSlow 20s linear infinite;
-}
-
-.animate-spin-reverse {
-  animation: spinReverse 15s linear infinite;
-}
-
-.animate-spin-fast {
-  animation: spinSlow 3.5s linear infinite;
-}
-
-.animate-pulse-glow {
-  animation: pulseGlow 4s ease-in-out infinite;
-}
-
-.animate-pulse-speaking {
-  animation: pulseSpeaking 1.1s ease-in-out infinite;
-}
-
-.animate-radar-sweep {
-  animation: radarSweep 1.8s cubic-bezier(0, 0.2, 0.8, 1) infinite;
-}
 
 /* Reduced Motion Compliance */
 @media (prefers-reduced-motion: reduce) {
-  .animate-spin-slow,
-  .animate-spin-reverse,
-  .animate-spin-fast,
-  .animate-pulse-glow,
-  .animate-pulse-speaking,
-  .animate-radar-sweep,
+  .animate-orb-float,
+  .animate-cosmic-swirl,
+  .animate-cosmic-swirl-fast,
+  .animate-cosmic-pulse,
   .animate-wave-1,
   .animate-wave-2,
-  .animate-wave-3,
-  .animate-wave-4,
-  .shimmer-hover {
+  .animate-wave-3 {
     animation: none !important;
   }
 }

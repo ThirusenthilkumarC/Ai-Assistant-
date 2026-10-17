@@ -10,15 +10,14 @@ import type {
 import { checkBackendStatus, sendChatMessage, fetchSuggestedTitle } from './services/api.service';
 import { useConversations } from './hooks/useConversations';
 import { useVoice } from './hooks/useVoice';
+import { WindowFrame } from './components/WindowFrame';
 import { Sidebar } from './components/Sidebar';
-import { Header } from './components/Header';
 import { ChatArea } from './components/ChatArea';
 import { MessageInput } from './components/MessageInput';
 import { SettingsModal } from './components/SettingsModal';
 import { ConfirmModal } from './components/ConfirmModal';
 import { Toast } from './components/Toast';
 import type { ToastMessage } from './components/Toast';
-import { CyberBackground } from './components/CyberBackground';
 
 const SETTINGS_STORAGE_KEY = 'nova_ai_app_settings_v1';
 
@@ -76,7 +75,7 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     refreshBackendStatus();
-    const interval = setInterval(refreshBackendStatus, 30000); // Check every 30s
+    const interval = setInterval(refreshBackendStatus, 30000);
     return () => clearInterval(interval);
   }, [refreshBackendStatus]);
 
@@ -137,7 +136,6 @@ export const App: React.FC = () => {
     onTranscriptResult: (text, isFinal) => {
       setVoiceTranscript(text);
       if (isFinal) {
-        // Auto-send when final sentence received
         setTimeout(() => {
           handleSendMessage(text);
           setVoiceTranscript('');
@@ -164,9 +162,7 @@ export const App: React.FC = () => {
   // 7. Modals & UI Layout State
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isClearAllModalOpen, setIsClearAllModalOpen] = useState(false);
-  const [isClearCurrentModalOpen, setIsClearCurrentModalOpen] = useState(false);
   const [isOpenMobile, setIsOpenMobile] = useState(false);
-  const [isCollapsedDesktop, setIsCollapsedDesktop] = useState(false);
 
   // 8. Send Chat Message Workflow
   const handleSendMessage = async (text: string) => {
@@ -185,7 +181,6 @@ export const App: React.FC = () => {
       language: currentLanguage
     };
 
-    // Calculate auto title if this is the start of a conversation
     const currentMessages = activeConversation?.messages || [];
     const isFirstMessage = currentMessages.length === 0;
 
@@ -196,7 +191,6 @@ export const App: React.FC = () => {
     setIsGenerating(true);
 
     try {
-      // Dispatch to backend API
       const result = await sendChatMessage({
         message: text.trim(),
         conversationHistory: [...currentMessages, userMessage],
@@ -217,7 +211,6 @@ export const App: React.FC = () => {
         language: result.language || currentLanguage
       };
 
-      // If first message, fetch a short title
       let titleToSet: string | undefined;
       if (isFirstMessage) {
         titleToSet = await fetchSuggestedTitle(text.trim(), currentLanguage);
@@ -230,7 +223,6 @@ export const App: React.FC = () => {
         speak(result.response);
       }
 
-      // If demo mode returned, inform user gently once
       if (result.isDemo && !backendStatus.configured) {
         addToast(
           'info',
@@ -289,16 +281,6 @@ export const App: React.FC = () => {
     if (updates.mode) setCurrentMode(updates.mode);
   };
 
-  // Clear current chat
-  const handleConfirmClearCurrentChat = () => {
-    if (activeId) {
-      deleteConversation(activeId);
-      createNewConversation(currentMode, currentLanguage);
-      addToast('info', 'Current chat cleared.');
-    }
-    setIsClearCurrentModalOpen(false);
-  };
-
   // Clear all chats
   const handleConfirmClearAll = () => {
     clearAllConversations();
@@ -324,11 +306,8 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-[#070B14] text-[#F8FAFC] relative">
-      {/* Ambient Deep Space Nebula & Star Particles */}
-      <CyberBackground reducedMotion={settings.reducedMotion} />
-
-      {/* 1. Left Sidebar */}
+    <WindowFrame url="nova.ai" onRefresh={refreshBackendStatus}>
+      {/* 1. LEFT SIDEBAR MATCHING REFERENCE IMAGE */}
       <Sidebar
         conversations={conversations}
         activeId={activeId}
@@ -336,53 +315,28 @@ export const App: React.FC = () => {
         onNewChat={mode => createNewConversation(mode || currentMode, currentLanguage)}
         onDeleteConversation={id => deleteConversation(id)}
         onRenameConversation={(id, newTitle) => renameConversation(id, newTitle)}
-        onClearAll={() => setIsClearAllModalOpen(true)}
         onOpenSettings={() => setIsSettingsOpen(true)}
         currentMode={currentMode}
         onSelectMode={mode => {
           setCurrentMode(mode);
-          addToast('info', `Switched to ${mode.toUpperCase()} Assistant Mode`);
+          addToast('info', `Switched to ${mode.toUpperCase()} Mode`);
         }}
         language={currentLanguage}
         isOpenMobile={isOpenMobile}
         onCloseMobile={() => setIsOpenMobile(false)}
-        isCollapsedDesktop={isCollapsedDesktop}
-        onToggleCollapseDesktop={() => setIsCollapsedDesktop(prev => !prev)}
       />
 
-      {/* 2. Main Dashboard & Chat Container */}
-      <div className="flex flex-col flex-1 min-w-0 h-full overflow-hidden bg-transparent relative z-10">
-        {/* Header */}
-        <Header
+      {/* 2. MAIN CONTENT AREA: CHAT PANEL + BOTTOM COMPOSER */}
+      <div className="flex-1 flex flex-col h-full min-w-0 overflow-hidden relative">
+        {/* Main Panel with Model Selector, Cosmic Orb, Hero, and Message Stream */}
+        <ChatArea
+          messages={activeConversation?.messages || []}
+          aiState={aiState}
           currentMode={currentMode}
           onSelectMode={mode => {
             setCurrentMode(mode);
             addToast('info', `Switched to ${mode.toUpperCase()} Mode`);
           }}
-          language={currentLanguage}
-          onLanguageChange={lang => {
-            setCurrentLanguage(lang);
-            addToast('info', lang === 'ta' ? 'தமிழ் மொழி தேர்ந்தெடுக்கப்பட்டது' : 'English language selected');
-          }}
-          voiceEnabled={settings.voice.enabled}
-          onToggleVoice={() => {
-            const nextState = !settings.voice.enabled;
-            handleUpdateSettings({ voice: { ...settings.voice, enabled: nextState } });
-            if (!nextState) stopSpeaking();
-            addToast('info', nextState ? 'Voice responses turned ON' : 'Voice responses MUTED');
-          }}
-          onClearChat={() => setIsClearCurrentModalOpen(true)}
-          onOpenSettings={() => setIsSettingsOpen(true)}
-          onOpenMobileMenu={() => setIsOpenMobile(true)}
-          backendStatus={backendStatus}
-          hasMessages={(activeConversation?.messages.length || 0) > 0}
-        />
-
-        {/* Message Stream Area */}
-        <ChatArea
-          messages={activeConversation?.messages || []}
-          aiState={aiState}
-          currentMode={currentMode}
           language={currentLanguage}
           onSelectSuggestion={handleSelectSuggestion}
           onRetryMessage={handleRetry}
@@ -399,9 +353,12 @@ export const App: React.FC = () => {
               startListening();
             }
           }}
+          onOpenSettings={() => setIsSettingsOpen(true)}
+          onOpenMobileMenu={() => setIsOpenMobile(true)}
+          backendStatus={backendStatus}
         />
 
-        {/* Bottom Message Input Area */}
+        {/* Bottom Chat Composer Matching Reference Image */}
         <MessageInput
           onSendMessage={handleSendMessage}
           onStartListening={startListening}
@@ -414,13 +371,17 @@ export const App: React.FC = () => {
           isGenerating={isGenerating}
           isSpeaking={isSpeaking}
           currentMode={currentMode}
+          onSelectMode={mode => {
+            setCurrentMode(mode);
+            addToast('info', `Mode: ${mode.toUpperCase()}`);
+          }}
           language={currentLanguage}
           transcript={voiceTranscript}
           isSpeechRecognitionSupported={isSpeechRecognitionSupported}
         />
       </div>
 
-      {/* 3. Modals */}
+      {/* 3. MODALS & TOASTS */}
       <SettingsModal
         isOpen={isSettingsOpen}
         onClose={() => setIsSettingsOpen(false)}
@@ -446,18 +407,8 @@ export const App: React.FC = () => {
         onCancel={() => setIsClearAllModalOpen(false)}
       />
 
-      <ConfirmModal
-        isOpen={isClearCurrentModalOpen}
-        title="Clear Current Chat"
-        message="Are you sure you want to delete this conversation?"
-        confirmLabel="Delete Chat"
-        onConfirm={handleConfirmClearCurrentChat}
-        onCancel={() => setIsClearCurrentModalOpen(false)}
-      />
-
-      {/* 4. Non-intrusive Toasts */}
       <Toast toasts={toasts} onDismiss={dismissToast} />
-    </div>
+    </WindowFrame>
   );
 };
 

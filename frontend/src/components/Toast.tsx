@@ -21,35 +21,35 @@ export const Toast: React.FC<ToastProps> = ({ toasts, onDismiss }) => {
         const getIcon = () => {
           switch (toast.type) {
             case 'success':
-              return <CheckCircle2 size={16} className="text-emerald-400" />;
+              return <CheckCircle2 size={15} className="text-emerald-400" />;
             case 'warning':
-              return <AlertTriangle size={16} className="text-amber-400" />;
+              return <AlertTriangle size={15} className="text-amber-400" />;
             case 'error':
-              return <AlertTriangle size={16} className="text-red-400" />;
+              return <AlertTriangle size={15} className="text-red-400" />;
             case 'info':
             default:
-              return <Info size={16} className="text-cyan-400" />;
+              return <Info size={15} className="text-purple-300" />;
           }
         };
 
         const getBorder = () => {
           switch (toast.type) {
             case 'success':
-              return 'border-emerald-500/40 bg-slate-900/95';
+              return 'border-emerald-500/30 bg-[#0E1222]/95';
             case 'warning':
-              return 'border-amber-500/40 bg-slate-900/95';
+              return 'border-amber-500/30 bg-[#0E1222]/95';
             case 'error':
-              return 'border-red-500/40 bg-slate-900/95';
+              return 'border-red-500/30 bg-[#0E1222]/95';
             case 'info':
             default:
-              return 'border-cyan-500/40 bg-slate-900/95';
+              return 'border-purple-500/30 bg-[#0E1222]/95';
           }
         };
 
         return (
           <div
             key={toast.id}
-            className={`pointer-events-auto flex items-center justify-between gap-3 p-3.5 rounded-xl border shadow-xl backdrop-blur-md text-xs text-slate-200 transition-all animate-in slide-in-from-bottom-2 duration-200 ${getBorder()}`}
+            className={`pointer-events-auto flex items-center justify-between gap-3 p-3 rounded-xl border shadow-2xl backdrop-blur-md text-xs text-slate-200 transition-all animate-in slide-in-from-bottom-2 duration-200 ${getBorder()}`}
           >
             <div className="flex items-center gap-2.5 min-w-0">
               {getIcon()}
@@ -60,7 +60,7 @@ export const Toast: React.FC<ToastProps> = ({ toasts, onDismiss }) => {
               type="button"
               className="text-slate-400 hover:text-white p-1"
             >
-              <X size={14} />
+              <X size={13} />
             </button>
           </div>
         );
