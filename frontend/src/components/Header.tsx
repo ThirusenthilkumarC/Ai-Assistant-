@@ -1,9 +1,22 @@
 import React from 'react';
-import { Menu, Volume2, VolumeX, Trash2, Settings, Sparkles, Code2, GraduationCap, CheckCircle2, AlertTriangle, XCircle } from 'lucide-react';
+import {
+  Menu,
+  Volume2,
+  VolumeX,
+  Trash2,
+  Settings,
+  Sparkles,
+  Code2,
+  GraduationCap,
+  AlertTriangle,
+  XCircle,
+  Bot
+} from 'lucide-react';
 import type { AssistantMode, BackendStatus, Language } from '../types';
 
 interface HeaderProps {
   currentMode: AssistantMode;
+  onSelectMode: (mode: AssistantMode) => void;
   language: Language;
   onLanguageChange: (lang: Language) => void;
   voiceEnabled: boolean;
@@ -17,6 +30,7 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({
   currentMode,
+  onSelectMode,
   language,
   onLanguageChange,
   voiceEnabled,
@@ -27,35 +41,33 @@ export const Header: React.FC<HeaderProps> = ({
   backendStatus,
   hasMessages
 }) => {
-  const getModeInfo = () => {
-    switch (currentMode) {
-      case 'coding':
-        return {
-          label: language === 'ta' ? 'நிரலாக்க உதவியாளர்' : 'Coding Assistant',
-          icon: <Code2 size={14} className="text-cyan-400" />,
-          color: 'border-cyan-500/30 text-cyan-300 bg-cyan-950/40'
-        };
-      case 'study':
-        return {
-          label: language === 'ta' ? 'கல்வி உதவியாளர்' : 'Study Assistant',
-          icon: <GraduationCap size={14} className="text-violet-400" />,
-          color: 'border-violet-500/30 text-violet-300 bg-violet-950/40'
-        };
-      case 'general':
-      default:
-        return {
-          label: language === 'ta' ? 'பொது உதவியாளர்' : 'AI Assistant',
-          icon: <Sparkles size={14} className="text-blue-400" />,
-          color: 'border-blue-500/30 text-blue-300 bg-blue-950/40'
-        };
+  const modes: { id: AssistantMode; labelEn: string; labelTa: string; icon: React.ReactNode; color: string }[] = [
+    {
+      id: 'general',
+      labelEn: 'General',
+      labelTa: 'பொது',
+      icon: <Sparkles size={14} />,
+      color: 'from-blue-500/20 to-cyan-500/20 text-blue-300 border-blue-500/40'
+    },
+    {
+      id: 'coding',
+      labelEn: 'Coding',
+      labelTa: 'நிரல்',
+      icon: <Code2 size={14} />,
+      color: 'from-cyan-500/20 to-teal-500/20 text-cyan-300 border-cyan-500/40'
+    },
+    {
+      id: 'study',
+      labelEn: 'Study',
+      labelTa: 'கல்வி',
+      icon: <GraduationCap size={14} />,
+      color: 'from-violet-500/20 to-purple-500/20 text-violet-300 border-violet-500/40'
     }
-  };
-
-  const modeInfo = getModeInfo();
+  ];
 
   return (
-    <header className="sticky top-0 z-30 flex items-center justify-between px-3 sm:px-6 py-3 bg-[#0B1220]/80 backdrop-blur-xl border-b border-cyan-500/15 select-none">
-      {/* Left Area: Mobile hamburger & Mode Badge */}
+    <header className="sticky top-0 z-30 flex items-center justify-between px-3 sm:px-6 py-2.5 bg-[#0B1220]/85 backdrop-blur-2xl border-b border-cyan-500/20 select-none">
+      {/* Left Area: Mobile Menu & Assistant Mode Selector */}
       <div className="flex items-center gap-2 sm:gap-3">
         <button
           onClick={onOpenMobileMenu}
@@ -66,40 +78,66 @@ export const Header: React.FC<HeaderProps> = ({
           <Menu size={20} />
         </button>
 
-        {/* Current Active Mode Badge */}
-        <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-medium ${modeInfo.color}`}>
-          {modeInfo.icon}
-          <span className="tracking-wide">{modeInfo.label}</span>
+        {/* Brand Name on Mobile when Sidebar Collapsed */}
+        <div className="md:hidden flex items-center gap-2">
+          <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white">
+            <Bot size={16} />
+          </div>
+          <span className="font-extrabold text-sm tracking-wider font-mono text-cyan-300">
+            NOVA
+          </span>
         </div>
 
-        {/* Backend Status Pill */}
+        {/* Header Mode Selector Pills */}
+        <div className="hidden sm:flex items-center rounded-xl bg-slate-900/90 border border-slate-700/70 p-1 gap-1">
+          {modes.map(mode => {
+            const isActive = currentMode === mode.id;
+            return (
+              <button
+                key={mode.id}
+                onClick={() => onSelectMode(mode.id)}
+                type="button"
+                className={`flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
+                  isActive
+                    ? `bg-gradient-to-r ${mode.color} shadow-[0_0_12px_rgba(0,229,255,0.2)] border`
+                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+                }`}
+              >
+                {mode.icon}
+                <span>{language === 'ta' ? mode.labelTa : mode.labelEn}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Backend / AI Status Pill */}
         <div
-          className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-900/80 border border-slate-700/60 text-[11px] font-mono cursor-pointer"
-          title={`Backend: ${backendStatus.message}`}
+          className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-900/90 border border-slate-700/70 text-[11px] font-mono cursor-pointer hover:border-cyan-500/40 transition-colors"
+          title={`Backend Status: ${backendStatus.message}`}
           onClick={onOpenSettings}
         >
           {backendStatus.connected ? (
             backendStatus.configured ? (
               <>
-                <CheckCircle2 size={12} className="text-emerald-400" />
-                <span className="text-emerald-400">Gemini Online</span>
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="text-emerald-400 hidden xs:inline font-medium">Gemini Online</span>
               </>
             ) : (
               <>
                 <AlertTriangle size={12} className="text-amber-400" />
-                <span className="text-amber-300">Demo Mode</span>
+                <span className="text-amber-300 hidden xs:inline font-medium">Demo Mode</span>
               </>
             )
           ) : (
             <>
               <XCircle size={12} className="text-red-400" />
-              <span className="text-red-400">Server Offline</span>
+              <span className="text-red-400 hidden xs:inline font-medium">Offline</span>
             </>
           )}
         </div>
       </div>
 
-      {/* Right Area: Controls */}
+      {/* Right Area: Language Switcher, Voice Toggle, Clear, Settings */}
       <div className="flex items-center gap-1.5 sm:gap-2">
         {/* Language Selector Switcher */}
         <div className="flex items-center rounded-xl bg-slate-900/90 border border-slate-700/80 p-0.5">
@@ -108,7 +146,7 @@ export const Header: React.FC<HeaderProps> = ({
             type="button"
             className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all ${
               language === 'en'
-                ? 'bg-cyan-500/25 text-cyan-200 border border-cyan-500/40 shadow-sm'
+                ? 'bg-cyan-500/25 text-cyan-200 border border-cyan-500/50 shadow-sm'
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
@@ -119,7 +157,7 @@ export const Header: React.FC<HeaderProps> = ({
             type="button"
             className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all ${
               language === 'ta'
-                ? 'bg-cyan-500/25 text-cyan-200 border border-cyan-500/40 shadow-sm'
+                ? 'bg-cyan-500/25 text-cyan-200 border border-cyan-500/50 shadow-sm'
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
@@ -134,7 +172,7 @@ export const Header: React.FC<HeaderProps> = ({
           title={voiceEnabled ? 'Spoken responses enabled' : 'Spoken responses muted'}
           className={`p-2 rounded-xl transition-all ${
             voiceEnabled
-              ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-[0_0_12px_rgba(0,229,255,0.2)]'
+              ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-[0_0_14px_rgba(0,229,255,0.25)]'
               : 'text-slate-400 hover:text-slate-200 bg-slate-900/80 border border-slate-700/60'
           }`}
         >

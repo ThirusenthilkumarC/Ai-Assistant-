@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { Sparkles, Code2, GraduationCap, Globe, ArrowRight } from 'lucide-react';
+import { Sparkles, Code2, GraduationCap, HelpCircle, ArrowRight } from 'lucide-react';
 import type { AiState, AssistantMode, ChatMessage, Language } from '../types';
 import { AiOrb } from './AiOrb';
 import { ChatMessageBubble } from './ChatMessageBubble';
@@ -15,18 +15,21 @@ interface ChatAreaProps {
   isSpeaking: boolean;
   onStopSpeaking: () => void;
   reducedMotion: boolean;
+  onOrbClick?: () => void;
 }
 
 export const ChatArea: React.FC<ChatAreaProps> = ({
   messages,
   aiState,
+  currentMode,
   language,
   onSelectSuggestion,
   onRetryMessage,
   onSpeakMessage,
   isSpeaking,
   onStopSpeaking,
-  reducedMotion
+  reducedMotion,
+  onOrbClick
 }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -37,70 +40,79 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
     }
   }, [messages, aiState, reducedMotion]);
 
-  // Suggestions definitions based on selected language
+  // Suggested prompt cards according to specification:
+  // • Explain a concept
+  // • Help me debug code
+  // • Learn something new
+  // • Answer my question
   const suggestions = [
     {
-      id: 'coding-concept',
-      titleEn: 'Explain a Programming Concept',
-      descEn: 'Break down closures, async/await, or recursion',
-      titleTa: 'நிரலாக்கக் கருத்தை விளக்குங்கள்',
-      descTa: 'Async/Await அல்லது Algorithms எளிய முறையில்',
+      id: 'explain-concept',
+      titleEn: 'Explain a concept',
+      descEn: 'Break down complex algorithms, async/await, or design patterns',
+      titleTa: 'ஒரு கருத்தை விளக்குங்கள்',
+      descTa: 'அல்காரிதம்கள் அல்லது தொழில்நுட்ப கருத்துக்கள் எளிய முறையில்',
       icon: <Code2 size={20} className="text-cyan-400" />,
-      promptEn: 'Explain how async/await and promises work in JavaScript under the hood with a clean example.',
+      badge: 'CODING',
+      promptEn: 'Explain how async/await and Promises work in JavaScript under the hood with a concise example.',
       promptTa: 'JavaScript-ல் Promises மற்றும் Async/Await எவ்வாறு செயல்படுகிறது என்பதை எளிய தமிழில் விளக்குங்கள்.',
       suggestedMode: 'coding' as AssistantMode,
-      borderGlow: 'hover:border-cyan-500/50 hover:shadow-[0_0_20px_rgba(0,229,255,0.15)]'
+      borderGlow: 'hover:border-cyan-500/60 hover:shadow-[0_0_25px_rgba(0,229,255,0.18)]'
     },
     {
       id: 'debug-code',
-      titleEn: 'Help Me Debug My Code',
-      descEn: 'Fix errors, memory leaks, and logic flaws',
-      titleTa: 'என் குறியீட்டில் உள்ள பிழையைத் திருத்துங்கள்',
-      descTa: 'பிழைகள், Syntax issues மற்றும் தீர்வுகளை கண்டறிய',
+      titleEn: 'Help me debug code',
+      descEn: 'Identify runtime bugs, memory leaks, and syntax flaws',
+      titleTa: 'குறியீட்டுப் பிழையைத் திருத்துங்கள்',
+      descTa: 'Runtime errors, syntax issues மற்றும் தீர்வுகளை கண்டறிய',
       icon: <Sparkles size={20} className="text-blue-400" />,
-      promptEn: 'Help me debug this TypeScript code: TypeError: Cannot read properties of undefined (reading "map"). How do I fix it safely?',
+      badge: 'DEBUG',
+      promptEn: 'Help me debug this TypeScript error: "TypeError: Cannot read properties of undefined (reading \'map\')". How do I handle it safely?',
       promptTa: 'TypeError: Cannot read properties of undefined என்ற பிழை ஏன் ஏற்படுகிறது? அதைத் தீர்க்கும் வழியை விளக்குங்கள்.',
       suggestedMode: 'coding' as AssistantMode,
-      borderGlow: 'hover:border-blue-500/50 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)]'
+      borderGlow: 'hover:border-blue-500/60 hover:shadow-[0_0_25px_rgba(59,130,246,0.18)]'
     },
     {
-      id: 'teach-academic',
-      titleEn: 'Teach Me Something New',
-      descEn: 'Master complex academic & CS theories easily',
-      titleTa: 'ஒரு புதிய கல்வித் தலைப்பை கற்றுத்தாருங்கள்',
-      descTa: 'கணினி நெட்வொர்க்கிங் அல்லது AI கணிதம்',
+      id: 'learn-new',
+      titleEn: 'Learn something new',
+      descEn: 'Explore neural networks, quantum computing, or CS theory',
+      titleTa: 'புதிய ஒன்றைக் கற்றுக் கொள்ளுங்கள்',
+      descTa: 'Neural Networks அல்லது கணினி அறிவியல் கோட்பாடுகள்',
       icon: <GraduationCap size={20} className="text-violet-400" />,
-      promptEn: 'Teach me the concept of Neural Networks and Backpropagation using a clear, intuitive real-world analogy.',
+      badge: 'ACADEMIC',
+      promptEn: 'Teach me the core concepts of Neural Networks and Attention mechanisms using an intuitive real-world analogy.',
       promptTa: 'செயற்கை நுண்ணறிவில் (AI) Machine Learning மற்றும் Deep Learning இடையேயான வித்தியாசத்தை விளக்குங்கள்.',
       suggestedMode: 'study' as AssistantMode,
-      borderGlow: 'hover:border-violet-500/50 hover:shadow-[0_0_20px_rgba(139,92,246,0.15)]'
+      borderGlow: 'hover:border-violet-500/60 hover:shadow-[0_0_25px_rgba(139,92,246,0.18)]'
     },
     {
-      id: 'tamil-chat',
-      titleEn: 'Chat with Me in Tamil',
-      descEn: 'Converse fluently in natural Tamil or Tanglish',
-      titleTa: 'தமிழுடன் உரையாடுங்கள் (தமிழ் பேச்சு)',
-      descTa: 'இயற்கையான தமிழில் குரல் மற்றும் உரை உரையாடல்',
-      icon: <Globe size={20} className="text-teal-400" />,
-      promptEn: 'வணக்கம் NOVA! நீங்கள் என்னென்ன உதவிகளைச் செய்வீர்கள் என்று சுருக்கமாகக் கூறுங்கள்.',
-      promptTa: 'வணக்கம் NOVA! நீங்கள் என்னென்ன உதவிகளைச் செய்வீர்கள் என்று சுருக்கமாகக் கூறுங்கள்.',
+      id: 'answer-question',
+      titleEn: 'Answer my question',
+      descEn: 'Ask any question in natural English or fluent Tamil (தமிழ்)',
+      titleTa: 'என் கேள்விக்கு விடையளியுங்கள்',
+      descTa: 'இயற்கையான தமிழ் மற்றும் ஆங்கிலத்தில் எந்த கேள்விக்கும் பதில்',
+      icon: <HelpCircle size={20} className="text-teal-400" />,
+      badge: 'GENERAL',
+      promptEn: 'What is the fundamental difference between concurrency and parallelism in computer systems?',
+      promptTa: 'வணக்கம் NOVA! கணினி அமைப்புகளில் Concurrency மற்றும் Parallelism இடையேயான வேறுபாடு என்ன?',
       suggestedMode: 'general' as AssistantMode,
-      suggestedLang: 'ta' as Language,
-      borderGlow: 'hover:border-teal-500/50 hover:shadow-[0_0_20px_rgba(45,212,191,0.15)]'
+      borderGlow: 'hover:border-teal-500/60 hover:shadow-[0_0_25px_rgba(45,212,191,0.18)]'
     }
   ];
 
   return (
-    <div className="flex-1 overflow-y-auto px-3 sm:px-6 md:px-8 py-6 relative">
-      {/* Background cyber grid effect */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-40 pointer-events-none" />
-
+    <div className="flex-1 overflow-y-auto px-3 sm:px-6 md:px-8 py-6 relative z-10 flex flex-col">
       {/* When NO messages exist, render Hero Empty State */}
       {messages.length === 0 ? (
-        <div className="relative z-10 flex flex-col items-center justify-center min-h-[70vh] max-w-3xl mx-auto text-center px-2">
+        <div className="flex-1 flex flex-col items-center justify-center max-w-3xl mx-auto text-center px-2 py-4">
           {/* Main Animated AI Orb */}
-          <div className="mb-6">
-            <AiOrb state={aiState} size="hero" reducedMotion={reducedMotion} />
+          <div className="mb-7">
+            <AiOrb
+              state={aiState}
+              size="hero"
+              onClick={onOrbClick}
+              reducedMotion={reducedMotion}
+            />
           </div>
 
           {/* Heading */}
@@ -108,12 +120,17 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
             {language === 'ta' ? 'வணக்கம், நான் NOVA.' : "Hello, I'm NOVA."}
           </h1>
 
-          {/* Subtitle */}
-          <p className="text-base sm:text-lg text-slate-400 mb-8 max-w-lg font-light">
+          {/* Subtitle & Current Mode Pill */}
+          <p className="text-base sm:text-lg text-slate-400 mb-3 max-w-lg font-light tracking-wide">
             {language === 'ta'
-              ? 'உங்கள் நுண்ணறிவு தனிநபர் உதவியாளர் பேசவும் உதவவும் தயாராக உள்ளது.'
-              : 'Your intelligent companion is ready.'}
+              ? 'உங்கள் அறிவார்ந்த AI தோழன் உதவத் தயாராக உள்ளது.'
+              : 'Your intelligent AI companion.'}
           </p>
+
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/80 border border-cyan-500/30 text-xs font-mono text-cyan-300 mb-8 shadow-sm">
+            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+            <span className="uppercase tracking-wider">{currentMode} Assistant Mode</span>
+          </div>
 
           {/* Four Interactive Suggestion Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 w-full text-left">
@@ -124,7 +141,7 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
                   onSelectSuggestion(
                     language === 'ta' ? s.promptTa : s.promptEn,
                     s.suggestedMode,
-                    s.suggestedLang || language
+                    language
                   )
                 }
                 role="button"
@@ -134,26 +151,31 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
                     onSelectSuggestion(
                       language === 'ta' ? s.promptTa : s.promptEn,
                       s.suggestedMode,
-                      s.suggestedLang || language
+                      language
                     );
                   }
                 }}
-                className={`p-4 rounded-2xl glass-panel transition-all duration-300 cursor-pointer group flex items-start gap-3.5 ${s.borderGlow}`}
+                className={`p-4 sm:p-5 rounded-2xl glass-panel shimmer-hover transition-all duration-300 cursor-pointer group flex items-start gap-4 border border-cyan-500/20 ${s.borderGlow}`}
               >
-                <div className="p-2.5 rounded-xl bg-slate-900/90 border border-slate-700/60 group-hover:scale-110 transition-transform flex-shrink-0">
+                <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-700/60 group-hover:scale-110 group-hover:border-cyan-400/50 transition-all flex-shrink-0 shadow-lg">
                   {s.icon}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between">
-                    <h3 className="font-semibold text-sm text-slate-100 group-hover:text-cyan-300 transition-colors truncate">
-                      {language === 'ta' ? s.titleTa : s.titleEn}
-                    </h3>
+                  <div className="flex items-center justify-between gap-1">
+                    <div className="flex items-center gap-2">
+                      <h3 className="font-semibold text-sm sm:text-base text-slate-100 group-hover:text-cyan-300 transition-colors truncate">
+                        {language === 'ta' ? s.titleTa : s.titleEn}
+                      </h3>
+                      <span className="text-[9px] font-mono tracking-wider px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700 uppercase">
+                        {s.badge}
+                      </span>
+                    </div>
                     <ArrowRight
-                      size={14}
-                      className="text-slate-500 group-hover:text-cyan-400 group-hover:translate-x-1 transition-all opacity-0 group-hover:opacity-100"
+                      size={15}
+                      className="text-slate-500 group-hover:text-cyan-400 group-hover:translate-x-1 transition-all opacity-0 group-hover:opacity-100 flex-shrink-0"
                     />
                   </div>
-                  <p className="text-xs text-slate-400 mt-1 line-clamp-2">
+                  <p className="text-xs text-slate-400 mt-1.5 line-clamp-2 leading-relaxed">
                     {language === 'ta' ? s.descTa : s.descEn}
                   </p>
                 </div>
@@ -163,7 +185,7 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
         </div>
       ) : (
         /* Conversation Message Stream */
-        <div className="relative z-10 max-w-3xl mx-auto space-y-1">
+        <div className="max-w-3xl w-full mx-auto space-y-1">
           {messages.map((msg, index) => (
             <ChatMessageBubble
               key={msg.id || index}
@@ -175,16 +197,24 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
             />
           ))}
 
-          {/* Thinking / Computing Loading Indicator */}
+          {/* Typing / Thinking Loading Indicator */}
           {aiState === 'thinking' && (
-            <div className="flex items-start gap-3 my-4">
-              <div className="w-9 h-9 rounded-full bg-slate-900 border border-violet-500/40 flex items-center justify-center shadow-lg shadow-violet-500/20 overflow-hidden flex-shrink-0">
+            <div className="flex items-start gap-3 my-4 animate-in fade-in duration-200">
+              <div className="w-9 h-9 rounded-full bg-slate-900 border border-violet-500/50 flex items-center justify-center shadow-lg shadow-violet-500/20 overflow-hidden flex-shrink-0">
                 <AiOrb state="thinking" size="sm" reducedMotion={reducedMotion} />
               </div>
-              <div className="glass-panel rounded-2xl rounded-tl-none p-4 text-xs font-mono text-cyan-300 flex items-center gap-2 border border-cyan-500/20">
-                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
-                <span>
-                  {language === 'ta' ? 'NOVA சிந்திக்கிறது...' : 'NOVA is thinking and synthesizing response...'}
+              <div className="glass-panel-glow rounded-2xl rounded-tl-none p-4 text-xs font-mono text-cyan-300 flex items-center gap-3 border border-cyan-500/30 shadow-xl">
+                {/* Miniature animated sound wave bars */}
+                <div className="flex items-end gap-1 h-4">
+                  <span className="w-1 bg-cyan-400 rounded-full animate-wave-1" />
+                  <span className="w-1 bg-violet-400 rounded-full animate-wave-2" />
+                  <span className="w-1 bg-blue-400 rounded-full animate-wave-3" />
+                  <span className="w-1 bg-cyan-300 rounded-full animate-wave-4" />
+                </div>
+                <span className="tracking-wide">
+                  {language === 'ta'
+                    ? 'NOVA சிந்திக்கிறது மற்றும் பதிலை உருவாக்குகிறது...'
+                    : 'NOVA is synthesizing response...'}
                 </span>
               </div>
             </div>

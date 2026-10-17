@@ -18,6 +18,7 @@ import { SettingsModal } from './components/SettingsModal';
 import { ConfirmModal } from './components/ConfirmModal';
 import { Toast } from './components/Toast';
 import type { ToastMessage } from './components/Toast';
+import { CyberBackground } from './components/CyberBackground';
 
 const SETTINGS_STORAGE_KEY = 'nova_ai_app_settings_v1';
 
@@ -46,7 +47,7 @@ export const App: React.FC = () => {
     };
   });
 
-  // Current session mode and language (can be switched quickly in chat)
+  // Current session mode and language
   const [currentMode, setCurrentMode] = useState<AssistantMode>(settings.mode);
   const [currentLanguage, setCurrentLanguage] = useState<Language>(settings.language);
 
@@ -261,7 +262,6 @@ export const App: React.FC = () => {
 
   // Retry a failed or previous prompt
   const handleRetry = (content: string) => {
-    // Find previous user message
     const msgs = activeConversation?.messages || [];
     const lastUserMsg = [...msgs].reverse().find(m => m.sender === 'user');
     if (lastUserMsg) {
@@ -324,7 +324,10 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-[#070B14] text-[#F8FAFC]">
+    <div className="flex h-screen w-screen overflow-hidden bg-[#070B14] text-[#F8FAFC] relative">
+      {/* Ambient Deep Space Nebula & Star Particles */}
+      <CyberBackground reducedMotion={settings.reducedMotion} />
+
       {/* 1. Left Sidebar */}
       <Sidebar
         conversations={conversations}
@@ -348,10 +351,14 @@ export const App: React.FC = () => {
       />
 
       {/* 2. Main Dashboard & Chat Container */}
-      <div className="flex flex-col flex-1 min-w-0 h-full overflow-hidden bg-[#070B14]">
+      <div className="flex flex-col flex-1 min-w-0 h-full overflow-hidden bg-transparent relative z-10">
         {/* Header */}
         <Header
           currentMode={currentMode}
+          onSelectMode={mode => {
+            setCurrentMode(mode);
+            addToast('info', `Switched to ${mode.toUpperCase()} Mode`);
+          }}
           language={currentLanguage}
           onLanguageChange={lang => {
             setCurrentLanguage(lang);
@@ -383,6 +390,15 @@ export const App: React.FC = () => {
           isSpeaking={isSpeaking}
           onStopSpeaking={stopSpeaking}
           reducedMotion={settings.reducedMotion}
+          onOrbClick={() => {
+            if (isSpeaking) {
+              stopSpeaking();
+            } else if (isListening) {
+              stopListening();
+            } else {
+              startListening();
+            }
+          }}
         />
 
         {/* Bottom Message Input Area */}
