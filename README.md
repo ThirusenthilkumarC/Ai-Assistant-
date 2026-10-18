@@ -1,440 +1,234 @@
-<div align="center"><img src="https://capsule-render.vercel.app/api?type=waving&color=0:090979,50:00D4FF,100:7B2FF7&height=230&section=header&text=NOVA%20AI&fontSize=75&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=Your%20Intelligent%20Voice%20%26%20Chat%20Companion&descAlignY=60&descSize=18" width="100%" alt="NOVA AI banner"/>⚡ THINK SMARTER. SPEAK NATURALLY. DO MORE.
+<div align="center"><img src="https://capsule-render.vercel.app/api?type=waving&height=250&color=0:090979,45:6D28D9,100:00D4FF&text=NOVA%20AI&fontSize=85&fontColor=ffffff&fontAlignY=38&desc=YOUR%20INTELLIGENT%20AI%20COMPANION&descSize=17&descAlignY=60&animation=fadeIn" width="100%" alt="NOVA AI"/><img src="https://readme-typing-svg.demolab.com?font=Orbitron&weight=600&size=20&duration=2800&pause=900&color=00E5FF&center=true&vCenter=true&width=650&lines=THINK+BEYOND+LIMITS.;CODE+WITH+INTELLIGENCE.;SPEAK.+EXPLORE.+CREATE.;WELCOME+TO+NOVA+AI." alt="NOVA AI animated tagline"/><br/>A smarter way to chat, learn, code, and explore ideas.
 
-An intelligent AI assistant designed to make conversations, learning, and everyday digital tasks easier.
+<br/><a href="https://github.com/ThirusenthilkumarC/Ai-Assistant-">
+<img src="https://img.shields.io/badge/PROJECT-NOVA%20AI-8B5CF6?style=for-the-badge&logo=probot&logoColor=white" alt="Project NOVA AI"/>
+</a>
+<img src="https://img.shields.io/badge/STATUS-IN%20DEVELOPMENT-00D4FF?style=for-the-badge&logo=github" alt="In development"/>
+<img src="https://img.shields.io/badge/BUILT%20WITH-PASSION-FF4D8D?style=for-the-badge&logo=heart" alt="Built with passion"/><br/><br/>
 
-""React" (https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black)" (https://react.dev/)
-""TypeScript" (https://img.shields.io/badge/TypeScript-5.0+-3178C6?style=flat-square&logo=typescript&logoColor=white)" (https://www.typescriptlang.org/)
-""Vite" (https://img.shields.io/badge/Vite-8-646CFF?style=flat-square&logo=vite&logoColor=white)" (https://vitejs.dev/)
-""Tailwind CSS" (https://img.shields.io/badge/Tailwind_CSS-v4-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)" (https://tailwindcss.com/)
-""Express.js" (https://img.shields.io/badge/Express.js-Backend-000000?style=flat-square&logo=express&logoColor=white)" (https://expressjs.com/)
-""Google Gemini" (https://img.shields.io/badge/Google_Gemini-AI_SDK-8E75C2?style=flat-square&logo=google&logoColor=white)" (https://aistudio.google.com/)
-""License: MIT" (https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)" (LICENSE)
+"✨ Features" (#-features) • "⚡ Tech Stack" (#-tech-stack) • "🚀 Installation" (#-installation) • "🗺️ Roadmap" (#-roadmap) • "👨‍💻 Developer" (#-developer)
 
-<br/><img src="https://img.shields.io/badge/BUILT%20BY-Thirusenthilkumar%20C-00D4FF?style=for-the-badge&logo=github&logoColor=white" alt="Built by Thirusenthilkumar C"/>
-<img src="https://img.shields.io/badge/STATUS-UNDER%20DEVELOPMENT-orange?style=for-the-badge" alt="Under development"/><br/><br/>
+</div>---
 
-<a href="#-overview">Overview</a> •
-<a href="#-features">Features</a> •
-<a href="#-technology-stack">Tech Stack</a> •
-<a href="#-local-development">Local Development</a> •
-<a href="#-installation">Installation</a> •
-<a href="#-api-documentation">API</a> •
-<a href="#-roadmap">Roadmap</a>
+🌌 "01" — About NOVA
 
-<br/><br/>
+«Your ideas. Your intelligence. Your NOVA.»
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=20&duration=3000&pause=1000&color=00D4FF&center=true&vCenter=true&width=650&lines=Meet+your+personal+AI+assistant.;Chat+with+intelligence.;Speak+with+technology.;Your+ideas.+Your+AI.+Your+NOVA." alt="Animated introduction"/></div>---
+NOVA AI is a futuristic personal AI assistant built to deliver an engaging conversational experience with a modern interface, AI-powered assistance, and voice interaction.
 
-🌌 Overview
+Designed with a dark cosmic theme, glowing violet accents, and a clean chat workspace, NOVA brings together technology and creativity in one application.
 
-NOVA AI is a full-stack personal AI assistant designed to bring intelligent conversations, voice interaction, coding help, and study support into one modern application.
+<details>
+<summary><b>🔭 Explore the vision</b></summary>NOVA AI aims to make AI assistance easier to access for students, developers, and everyday users.
 
-The project combines a React + Vite + TypeScript frontend with an Express.js backend that can connect to the Google Gemini API. Its futuristic interface uses dark surfaces, cyan and violet accents, and an animated AI orb to make the experience engaging.
+- Ask questions and explore ideas.
+- Get help understanding programming concepts.
+- Practice learning and revision.
+- Interact through text and supported browser voice features.
+- Experience a modern, responsive AI workspace.
 
-«💡 Vision: Build a personal AI companion that makes technology feel natural, accessible, and useful.»
+</details>✨ Features
 
-«🚧 Project status: NOVA AI is under development. Features may evolve as the project progresses.»
+<table>
+<tr>
+<td width="50%">🧠 AI Conversations
 
-✨ Features
+Ask questions, explore concepts, and receive AI-generated responses through the configured backend.
 
-🎙️ Voice Interaction
+</td>
+<td width="50%">🎙️ Voice Experience
 
-- Voice input using the browser's Web Speech Recognition API, where supported.
-- Spoken responses using the browser's SpeechSynthesis API.
-- Voice settings such as available system voices, speech rate, and pitch.
-- Text cleanup before speech synthesis for a more natural spoken response.
+Use supported browser speech APIs for voice input and spoken responses.
 
-🌐 Tamil and English
+</td>
+</tr>
+<tr>
+<td width="50%">💻 Coding Companion
 
-- Designed for English and Tamil ("தமிழ்") conversations.
-- Supports natural Tamil and Tanglish prompts.
-- Technical terms and code remain in standard programming syntax.
+Explore programming concepts, understand code, and get debugging assistance.
 
-🔮 Animated AI Orb
+</td>
+<td width="50%">📚 Study Assistant
 
-The interface includes a multi-state animated orb intended to reflect the assistant's current state:
+Use NOVA to revise topics, understand technical subjects, and explore learning ideas.
 
-- Idle: Calm pulsing glow.
-- Listening: Visual response while voice input is active.
-- Thinking: Spinning rings and violet effects.
-- Speaking: Pulsing visual feedback while a response is spoken.
+</td>
+</tr>
+<tr>
+<td width="50%">🌐 Language Support
 
-🎯 Assistant Modes
+Designed for Tamil and English interactions, including Tanglish prompts.
 
-1. General Assistant — everyday questions and general help.
-2. Coding Assistant — programming explanations, debugging suggestions, and code formatting.
-3. Study Assistant — explanations of technical topics, revision summaries, and practice questions.
+</td>
+<td width="50%">🎨 Futuristic UI
 
-💬 Conversation Management
+Dark surfaces, violet and cyan accents, glowing visuals, and responsive layouts.
 
-- Conversation history stored in browser "localStorage".
-- Search, rename, and delete conversations.
-- Automatic conversation titles where supported.
-- Export conversation data as JSON.
-- Clear-history action with a confirmation step.
+</td>
+</tr>
+</table>💎 More capabilities
 
-🛡️ Backend and Safety
-
-- AI provider credentials are configured on the backend using environment variables.
-- Request validation and payload-size limits.
-- Rate limiting to help prevent excessive requests.
-- Centralized error handling.
-- Demo mode can be used when an AI API key is not configured, depending on backend configuration.
+- Conversation history and local browser storage.
+- Assistant modes for General, Coding, and Study.
+- AI orb animation and interface state feedback.
+- Configurable voice settings where supported.
+- Conversation export where implemented.
+- Backend validation and request handling.
 
 ---
 
-🏛️ System Architecture
+⚡ Tech Stack
 
-flowchart TD
-    User[User] --> UI[React + TypeScript Frontend]
-    UI --> Voice[Browser Speech APIs]
-    UI --> Storage[(Browser localStorage)]
-    UI --> Client[API Client]
-    Client --> API[Express REST API]
-    API --> Validation[Request Validation]
-    Validation --> Controller[Chat Controller]
-    Controller --> AIService[AI Service]
-    AIService --> Gemini[Google Gemini API]
-    Gemini --> AIService
-    AIService --> Controller
-    Controller --> API
-    API --> UI
+<div align="center">Frontend| Backend| AI & Tools
+<img src="https://skillicons.dev/icons?i=react,ts,vite,tailwind" alt="React, TypeScript, Vite, Tailwind CSS"/>| <img src="https://skillicons.dev/icons?i=nodejs,express" alt="Node.js and Express"/>| <img src="https://skillicons.dev/icons?i=git,github,vscode" alt="Git, GitHub and VS Code"/>
 
-How it works
+AI Integration: Google Gemini API, when configured
 
-1. The user enters a message or uses voice input.
-2. The frontend sends the request to the backend.
-3. The backend validates the request.
-4. The AI service communicates with the configured AI provider, when configured.
-5. The backend returns a response to the frontend.
-6. NOVA displays the response and can read it aloud when voice output is enabled.
+</div>---
 
----
+🪄 How NOVA Works
 
-🛠️ Technology Stack
+flowchart LR
+    A["👤 User"] --> B["💬 NOVA Interface"]
+    B --> C["⚙️ Express API"]
+    C --> D["🧠 AI Service"]
+    D --> E["✨ Gemini API"]
+    E --> D
+    D --> C
+    C --> B
 
-Area| Technology| Purpose
-Frontend| React 19| Component-based user interface
-Language| TypeScript| Type safety and maintainable code
-Build tool| Vite| Local development server and build tooling
-Styling| Tailwind CSS v4 and CSS| Responsive UI and visual styling
-Backend runtime| Node.js| Server-side JavaScript runtime
-API server| Express.js| REST API routes and middleware
-AI integration| Google Gemini SDK| AI-generated responses when configured
-Voice| Web Speech API| Browser-supported speech recognition and speech synthesis
-Conversation storage| Browser "localStorage"| Local conversation history
-Version control| Git and GitHub| Source control and collaboration
+1. Enter a question or use supported voice input.
+2. NOVA sends the request to its backend.
+3. The backend processes the request through the configured AI service.
+4. The response appears in the chat interface.
 
 ---
 
-📂 Project Structure
-
-Ai Assistant/
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── AiOrb.tsx
-│   │   │   ├── ChatArea.tsx
-│   │   │   ├── ChatMessageBubble.tsx
-│   │   │   ├── CodeBlock.tsx
-│   │   │   ├── ConfirmModal.tsx
-│   │   │   ├── Header.tsx
-│   │   │   ├── MessageInput.tsx
-│   │   │   ├── SettingsModal.tsx
-│   │   │   ├── Sidebar.tsx
-│   │   │   └── Toast.tsx
-│   │   ├── hooks/
-│   │   │   ├── useConversations.ts
-│   │   │   └── useVoice.ts
-│   │   ├── services/
-│   │   │   └── api.service.ts
-│   │   ├── types/
-│   │   │   └── index.ts
-│   │   ├── App.tsx
-│   │   ├── main.tsx
-│   │   └── index.css
-│   ├── package.json
-│   └── vite.config.ts
-├── backend/
-│   ├── src/
-│   │   ├── controllers/
-│   │   │   └── chat.controller.js
-│   │   ├── middleware/
-│   │   │   ├── error.middleware.js
-│   │   │   ├── rateLimit.middleware.js
-│   │   │   └── validation.middleware.js
-│   │   ├── routes/
-│   │   │   └── chat.routes.js
-│   │   ├── services/
-│   │   │   └── ai.service.js
-│   │   ├── app.js
-│   │   └── server.js
-│   ├── .env.example
-│   └── package.json
-├── package.json
-├── .gitignore
-├── LICENSE
-└── README.md
-
-This structure documents the project layout. File names may change as development continues.
-
----
-
-🚀 Local Development
-
-<div align="center">🌐 Frontend Application
-
-""Frontend" (https://img.shields.io/badge/Frontend-React%20%2B%20Vite-00D4FF?style=for-the-badge&logo=react&logoColor=white)" (http://localhost:5173)
-
-Frontend URL: "http://localhost:5173" (http://localhost:5173)
-
-⚙️ Backend API
-
-""Backend" (https://img.shields.io/badge/Backend-Express.js-7B2FF7?style=for-the-badge&logo=express&logoColor=white)" (http://localhost:5000/api)
-
-Backend API URL: "http://localhost:5000/api" (http://localhost:5000/api)
-
-</div>«⚠️ These localhost links work on your computer only while the corresponding development servers are running. They are not public deployment links.»
-
----
-
-⚙️ Installation
+🚀 Installation
 
 Prerequisites
 
-- "Node.js" (https://nodejs.org/) (18 or later recommended)
-- npm
-- "Git" (https://git-scm.com/)
-- A code editor such as "Visual Studio Code" (https://code.visualstudio.com/)
+- Node.js and npm
+- Git
+- Visual Studio Code or another code editor
+- A Google Gemini API key for live AI responses
 
-1. Clone the repository
-
-Use the actual repository URL for this project:
+Step 1 — Clone the repository
 
 git clone https://github.com/ThirusenthilkumarC/Ai-Assistant-.git
 cd "Ai Assistant"
 
-If you already have the project on your computer, open its project folder instead of cloning it again.
+Step 2 — Install dependencies
 
-2. Install dependencies
+Install dependencies in the root, frontend, and backend directories as required by the existing project scripts.
 
-If the root "package.json" includes an "install:all" script:
+npm install
 
-npm run install:all
-
-Otherwise, install the packages separately:
+If the project uses separate package files:
 
 cd backend
 npm install
+
 cd ../frontend
 npm install
 
-3. Configure backend environment variables
+Step 3 — Configure environment variables
 
-Create a ".env" file inside the "backend" folder. You can start from ".env.example" if it exists.
-
-Example:
+Create "backend/.env" using the project's ".env.example" if available.
 
 PORT=5000
 FRONTEND_URL=http://localhost:5173
-GEMINI_API_KEY=your_gemini_api_key_here
-GEMINI_MODEL=gemini-2.5-flash
+GEMINI_API_KEY=your_api_key_here
 
-Replace the placeholder API key with your own key. Keep ".env" private and never commit real credentials to GitHub.
+Use the model name and environment variable names expected by your actual backend configuration. Never commit your real API key.
 
-If you do not configure a key, the application may use Demo Mode if that fallback is enabled in the backend.
+Step 4 — Run NOVA AI
 
-4. Start the backend
-
-Open a terminal:
+Start the backend in one terminal:
 
 cd backend
 npm run dev
 
-The backend is expected to run at:
-
-http://localhost:5000
-
-5. Start the frontend
-
-Open a second terminal:
+Start the frontend in a second terminal:
 
 cd frontend
 npm run dev
 
-Open the local URL printed by Vite. The default configured address is:
+<div align="center">Service| Local URL
+🌐 Frontend| "http://localhost:5173"
+⚙️ Backend API| "http://localhost:5000/api"
 
-http://localhost:5173
+</div>---
 
-«💡 If your terminal reports that a port is already in use, follow the URL and port printed by the development server.»
+🎨 Design Philosophy
 
----
+<div align="center">Color| Hex| Purpose
+<img src="https://placehold.co/18x18/070B14/070B14.png" alt=""/>| "#070B14"| Cosmic background
+<img src="https://placehold.co/18x18/6D28D9/6D28D9.png" alt=""/>| "#6D28D9"| Deep violet
+<img src="https://placehold.co/18x18/8B5CF6/8B5CF6.png" alt=""/>| "#8B5CF6"| Neon purple
+<img src="https://placehold.co/18x18/00E5FF/00E5FF.png" alt=""/>| "#00E5FF"| Electric cyan
+<img src="https://placehold.co/18x18/F8FAFC/F8FAFC.png" alt=""/>| "#F8FAFC"| Primary text
 
-📡 API Documentation
-
-Base URL: "http://localhost:5000/api"
-
-The endpoints below describe the backend API documented for this project. Exact responses can depend on the current implementation and environment configuration.
-
-1. Health Check
-
-- Method: "GET"
-- Endpoint: "/api/health"
-- Purpose: Check whether the backend server is running.
-
-Example:
-
-curl http://localhost:5000/api/health
-
-2. AI Connection Status
-
-- Method: "GET"
-- Endpoint: "/api/chat/status"
-- Purpose: Check whether the AI provider is configured.
-
-Example:
-
-curl http://localhost:5000/api/chat/status
-
-3. Send a Chat Message
-
-- Method: "POST"
-- Endpoint: "/api/chat"
-- Content-Type: "application/json"
-- Purpose: Send a prompt and receive an assistant response.
-
-Example request body:
-
-{
-  "message": "Explain how Dijkstra's algorithm works",
-  "conversationHistory": [],
-  "mode": "study",
-  "language": "en"
-}
-
-4. Generate a Conversation Title
-
-- Method: "POST"
-- Endpoint: "/api/chat/title"
-- Content-Type: "application/json"
-- Purpose: Request a short title for a conversation.
-
-Example request body:
-
-{
-  "message": "Can you debug my React useEffect loop?",
-  "language": "en"
-}
-
----
-
-🎨 Design System
-
-Token| Hex value| Use
-Background primary| "#070B14"| Main dark background
-Background secondary| "#0B1220"| Panels and sidebar
-Primary cyan| "#00E5FF"| Highlights and glowing accents
-Electric blue| "#3B82F6"| Secondary accents
-Electric violet| "#8B5CF6"| Orb and mode accents
-Primary text| "#F8FAFC"| Main text
-Muted text| "#94A3B8"| Secondary text
-
-Design principles
-
-- Futuristic dark theme.
-- Cyan, electric blue, and violet accents.
-- Glass-inspired panels and subtle glow effects.
-- Clear typography and readable contrast.
-- Responsive layout for desktop and smaller screens.
-- Motion effects that should remain comfortable for users.
-
----
-
-🔐 Security and Privacy
-
-- Store AI provider API keys in backend environment variables.
-- Never commit ".env" files or secret credentials.
-- Validate incoming requests on the server.
-- Limit request sizes and apply rate limiting.
-- Return safe error messages without exposing private server details.
-- Configure CORS for the expected frontend origin.
-- Use HTTPS and production environment variables when deploying.
-- Conversation history stored in "localStorage" remains in that browser unless additional synchronization is implemented.
+</div>UI principles: Minimal • Futuristic • Responsive • Accessible • Interactive
 
 ---
 
 🗺️ Roadmap
 
-- [x] React + TypeScript + Vite frontend foundation
-- [x] Express.js REST API structure
-- [x] Google Gemini integration structure
-- [x] Browser speech input/output support
-- [x] Animated AI orb interface
+- [x] React frontend foundation
+- [x] Express backend structure
+- [x] AI integration structure
+- [x] Voice interaction support
+- [x] Conversation history foundation
 - [x] Tamil and English interaction support
-- [x] General, Coding, and Study assistant modes
-- [x] Local conversation history
-- [x] Responsive dark interface
-- [ ] File attachment and document analysis
-- [ ] More advanced real-time voice interaction
-- [ ] Optional local/offline model support
-- [ ] Further testing and accessibility improvements
-- [ ] Production deployment and public demo
+- [ ] Further refine the cosmic UI and AI orb
+- [ ] Expand file and image understanding
+- [ ] Improve accessibility and automated tests
+- [ ] Complete production deployment
 
-Roadmap items are planned work and may change.
+<sub>Roadmap reflects development goals; completion should be verified against the current code.</sub>
 
 ---
 
-🚀 Deployment
+🔐 Security
 
-NOVA AI can be deployed as a separate frontend and backend application.
-
-Component| Possible platform
-Frontend| "Vercel" (https://vercel.com/)
-Backend| "Render" (https://render.com/)
-Source code| "GitHub" (https://github.com/)
-
-Before deploying:
-
-1. Set production environment variables in the hosting dashboard.
-2. Configure the frontend to call the deployed backend URL.
-3. Update backend CORS settings for the deployed frontend domain.
-4. Keep API keys in the backend environment only.
-5. Test the API endpoints and application after deployment.
+- Keep API keys in backend environment variables.
+- Exclude ".env" files from Git.
+- Validate incoming API requests.
+- Configure CORS for trusted frontend origins.
+- Use HTTPS in production.
+- Avoid exposing sensitive information in error messages.
 
 ---
 
-🤝 Contributing
+👨‍💻 Developer
 
-Suggestions and contributions are welcome.
-
-1. Fork the repository.
-2. Create a feature branch.
-3. Make your changes.
-4. Test the changes locally.
-5. Open a pull request with a clear description.
-
----
-
-👨‍💻 Author
-
-<div align="center">Thirusenthilkumar C
+<div align="center"><img src="https://capsule-render.vercel.app/api?type=soft&color=0:111827,100:312E81&height=120&text=Thirusenthilkumar%20C&fontSize=32&fontColor=FFFFFF" width="100%" alt="Developer banner"/>Thirusenthilkumar C
 
 Full Stack Developer | UI/UX Enthusiast
 
-Building modern web applications and exploring AI-powered experiences.
+Building modern web experiences and exploring AI-powered applications.
 
-""GitHub" (https://img.shields.io/badge/GitHub-ThirusenthilkumarC-181717?style=for-the-badge&logo=github)" (https://github.com/ThirusenthilkumarC)
+<a href="https://github.com/ThirusenthilkumarC">
+<img src="https://img.shields.io/badge/GitHub-Follow%20My%20Journey-181717?style=for-the-badge&logo=github" alt="GitHub profile"/>
+</a></div>---
 
-</div>---
+🤝 Contributing
 
-📄 License
+Ideas and improvements are welcome.
 
-This project is intended to use the MIT License. Check that the repository contains the appropriate "LICENSE" file before treating the project as officially licensed.
+1. Fork the repository.
+2. Create a feature branch.
+3. Implement your changes.
+4. Test the application.
+5. Submit a pull request.
 
 ---
 
-<div align="center">💙 THE FUTURE IS INTERACTIVE.
+📄 License
 
-Meet NOVA AI — Your Voice. Your Intelligence. Your Assistant.
+Add a "LICENSE" file to the repository to specify the project's license.
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:7B2FF7,50:00D4FF,100:090979&height=120&section=footer" width="100%" alt="NOVA AI footer banner"/></div>
+<div align="center"><img src="https://readme-typing-svg.demolab.com?font=Orbitron&weight=600&size=19&duration=3000&pause=1000&color=8B5CF6&center=true&vCenter=true&width=500&lines=THANKS+FOR+VISITING+NOVA+AI.;KEEP+BUILDING.+KEEP+EXPLORING." alt="Thank you"/>⭐ If you like the project, consider giving the repository a star!
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:00D4FF,50:6D28D9,100:090979&height=120&section=footer" width="100%" alt="Footer banner"/></div>
