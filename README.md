@@ -1,148 +1,234 @@
-◈ NOVA AI
+<div align="center"><img src="https://capsule-render.vercel.app/api?type=waving&height=250&color=0:090979,45:6D28D9,100:00D4FF&text=NOVA%20AI&fontSize=85&fontColor=ffffff&fontAlignY=38&desc=YOUR%20INTELLIGENT%20AI%20COMPANION&descSize=17&descAlignY=60&animation=fadeIn" width="100%" alt="NOVA AI"/><img src="https://readme-typing-svg.demolab.com?font=Orbitron&weight=600&size=20&duration=2800&pause=900&color=00E5FF&center=true&vCenter=true&width=650&lines=THINK+BEYOND+LIMITS.;CODE+WITH+INTELLIGENCE.;SPEAK.+EXPLORE.+CREATE.;WELCOME+TO+NOVA+AI." alt="NOVA AI animated tagline"/><br/>A smarter way to chat, learn, code, and explore ideas.
 
-Intelligence. Interaction. Innovation.
+<br/><a href="https://github.com/ThirusenthilkumarC/Ai-Assistant-">
+<img src="https://img.shields.io/badge/PROJECT-NOVA%20AI-8B5CF6?style=for-the-badge&logo=probot&logoColor=white" alt="Project NOVA AI"/>
+</a>
+<img src="https://img.shields.io/badge/STATUS-IN%20DEVELOPMENT-00D4FF?style=for-the-badge&logo=github" alt="In development"/>
+<img src="https://img.shields.io/badge/BUILT%20WITH-PASSION-FF4D8D?style=for-the-badge&logo=heart" alt="Built with passion"/><br/><br/>
 
-<p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=rect&height=200&text=NOVA%20AI&fontSize=72&fontColor=ffffff&color=0:09090B,50:312E81,100:0891B2&animation=fadeIn&desc=An%20AI-Powered%20Web%20Assistant&descSize=18&descAlignY=75" width="100%" alt="NOVA AI"/>
-</p><p align="center">
-  <i>A modern web experience built to bring AI-powered conversations into a clean, intuitive workspace.</i>
-</p><p align="center">
-  <a href="https://github.com/ThirusenthilkumarC/Ai-Assistant-"><img src="https://img.shields.io/badge/PROJECT-NOVA%20AI-7C3AED?style=flat-square"/></a>
-  <img src="https://img.shields.io/badge/TYPE-Full%20Stack-0891B2?style=flat-square"/>
-  <img src="https://img.shields.io/badge/STATUS-In%20Development-F59E0B?style=flat-square"/>
-  <a href="https://github.com/ThirusenthilkumarC"><img src="https://img.shields.io/badge/BUILT%20BY-Thirusenthilkumar%20C-18181B?style=flat-square&logo=github"/></a>
-</p>---
+"✨ Features" (#-features) • "⚡ Tech Stack" (#-tech-stack) • "🚀 Installation" (#-installation) • "🗺️ Roadmap" (#-roadmap) • "👨‍💻 Developer" (#-developer)
 
-01 — The Concept
+</div>---
 
-NOVA AI is a full-stack AI assistant project designed around one simple idea: make interacting with AI feel effortless.
+🌌 "01" — About NOVA
 
-Combining a modern web interface with a backend architecture, NOVA AI is being developed to deliver an engaging, responsive, and intuitive conversational experience.
+«Your ideas. Your intelligence. Your NOVA.»
 
-The mission: Less friction. Better interaction. Smarter experiences.
+NOVA AI is a futuristic personal AI assistant built to deliver an engaging conversational experience with a modern interface, AI-powered assistance, and voice interaction.
 
-02 — Experience & Features
+Designed with a dark cosmic theme, glowing violet accents, and a clean chat workspace, NOVA brings together technology and creativity in one application.
 
-- Conversational Interface — A focused workspace for AI-powered interactions.
-- Modern Visual Language — Dark surfaces, refined gradients, and a futuristic aesthetic.
-- Component-Based UI — A frontend structure designed for maintainability.
-- Full-Stack Foundation — Separate frontend and backend responsibilities.
-- Responsive Experience — Aiming for usability across desktop and mobile screens.
-- Future-Ready Design — A foundation for expanding the assistant's capabilities.
+<details>
+<summary><b>🔭 Explore the vision</b></summary>NOVA AI aims to make AI assistance easier to access for students, developers, and everyday users.
 
-Feature availability depends on the current implementation.
+- Ask questions and explore ideas.
+- Get help understanding programming concepts.
+- Practice learning and revision.
+- Interact through text and supported browser voice features.
+- Experience a modern, responsive AI workspace.
 
-03 — Technology
+</details>✨ Features
 
-<p align="center">
-  <img src="https://skillicons.dev/icons?i=react,ts,vite,nodejs,express,tailwind,git,github&theme=dark" alt="Technologies"/>
-</p>Layer| Technology
-Frontend| React.js, TypeScript, Vite
-Backend| Node.js, Express.js
-Styling| CSS / Tailwind CSS, depending on the implementation
-AI| Google Gemini API, if configured
-Workflow| Git, GitHub, npm
+<table>
+<tr>
+<td width="50%">🧠 AI Conversations
 
-04 — System Overview
+Ask questions, explore concepts, and receive AI-generated responses through the configured backend.
 
-flowchart TD
-    A["User"] --> B["NOVA AI Interface"]
-    B --> C["Backend API"]
-    C --> D["AI Service"]
+</td>
+<td width="50%">🎙️ Voice Experience
+
+Use supported browser speech APIs for voice input and spoken responses.
+
+</td>
+</tr>
+<tr>
+<td width="50%">💻 Coding Companion
+
+Explore programming concepts, understand code, and get debugging assistance.
+
+</td>
+<td width="50%">📚 Study Assistant
+
+Use NOVA to revise topics, understand technical subjects, and explore learning ideas.
+
+</td>
+</tr>
+<tr>
+<td width="50%">🌐 Language Support
+
+Designed for Tamil and English interactions, including Tanglish prompts.
+
+</td>
+<td width="50%">🎨 Futuristic UI
+
+Dark surfaces, violet and cyan accents, glowing visuals, and responsive layouts.
+
+</td>
+</tr>
+</table>💎 More capabilities
+
+- Conversation history and local browser storage.
+- Assistant modes for General, Coding, and Study.
+- AI orb animation and interface state feedback.
+- Configurable voice settings where supported.
+- Conversation export where implemented.
+- Backend validation and request handling.
+
+---
+
+⚡ Tech Stack
+
+<div align="center">Frontend| Backend| AI & Tools
+<img src="https://skillicons.dev/icons?i=react,ts,vite,tailwind" alt="React, TypeScript, Vite, Tailwind CSS"/>| <img src="https://skillicons.dev/icons?i=nodejs,express" alt="Node.js and Express"/>| <img src="https://skillicons.dev/icons?i=git,github,vscode" alt="Git, GitHub and VS Code"/>
+
+AI Integration: Google Gemini API, when configured
+
+</div>---
+
+🪄 How NOVA Works
+
+flowchart LR
+    A["👤 User"] --> B["💬 NOVA Interface"]
+    B --> C["⚙️ Express API"]
+    C --> D["🧠 AI Service"]
+    D --> E["✨ Gemini API"]
+    E --> D
     D --> C
     C --> B
-    B --> E["Conversation Display"]
 
-The diagram illustrates the intended interaction flow. Actual service connections depend on the current codebase.
+1. Enter a question or use supported voice input.
+2. NOVA sends the request to its backend.
+3. The backend processes the request through the configured AI service.
+4. The response appears in the chat interface.
 
-05 — Run Locally
+---
+
+🚀 Installation
 
 Prerequisites
 
 - Node.js and npm
 - Git
-- An AI API key, if required by the configured backend
+- Visual Studio Code or another code editor
+- A Google Gemini API key for live AI responses
 
-Clone
+Step 1 — Clone the repository
 
 git clone https://github.com/ThirusenthilkumarC/Ai-Assistant-.git
-cd Ai-Assistant-
+cd "Ai Assistant"
 
-Install
+Step 2 — Install dependencies
 
-cd frontend
+Install dependencies in the root, frontend, and backend directories as required by the existing project scripts.
+
 npm install
 
-Open a second terminal:
+If the project uses separate package files:
 
 cd backend
 npm install
 
-Environment Configuration
+cd ../frontend
+npm install
 
-Create the backend ".env" file using the variable names expected by your server code.
+Step 3 — Configure environment variables
 
-Example only:
+Create "backend/.env" using the project's ".env.example" if available.
 
 PORT=5000
+FRONTEND_URL=http://localhost:5173
 GEMINI_API_KEY=your_api_key_here
 
-Keep secrets out of source control. Never upload your real API key to GitHub.
+Use the model name and environment variable names expected by your actual backend configuration. Never commit your real API key.
 
-Start the Development Servers
+Step 4 — Run NOVA AI
 
-Run the start scripts defined in each folder's "package.json". For a Vite frontend, the command is commonly:
+Start the backend in one terminal:
 
+cd backend
 npm run dev
 
-If your current configuration uses these ports:
+Start the frontend in a second terminal:
 
-- Frontend: "http://localhost:5173"
-- Backend API: "http://localhost:5000/api"
+cd frontend
+npm run dev
 
-These URLs work locally while the corresponding servers are running.
+<div align="center">Service| Local URL
+🌐 Frontend| "http://localhost:5173"
+⚙️ Backend API| "http://localhost:5000/api"
 
-06 — Development Roadmap
+</div>---
 
-- [x] Establish the project repository
-- [x] Build the initial application foundation
-- [ ] Refine the UI and responsive experience
-- [ ] Improve error handling and loading states
-- [ ] Expand conversation features
-- [ ] Test and document the implemented API
-- [ ] Explore production deployment
+🎨 Design Philosophy
 
-Update this roadmap as the project progresses.
+<div align="center">Color| Hex| Purpose
+<img src="https://placehold.co/18x18/070B14/070B14.png" alt=""/>| "#070B14"| Cosmic background
+<img src="https://placehold.co/18x18/6D28D9/6D28D9.png" alt=""/>| "#6D28D9"| Deep violet
+<img src="https://placehold.co/18x18/8B5CF6/8B5CF6.png" alt=""/>| "#8B5CF6"| Neon purple
+<img src="https://placehold.co/18x18/00E5FF/00E5FF.png" alt=""/>| "#00E5FF"| Electric cyan
+<img src="https://placehold.co/18x18/F8FAFC/F8FAFC.png" alt=""/>| "#F8FAFC"| Primary text
 
-07 — Project Structure
-
-Ai-Assistant-/
-├── frontend/
-│   └── src/
-├── backend/
-├── README.md
-└── package.json
-
-Illustrative structure — adjust it to match the actual repository.
-
-08 — The Developer
-
-<p align="center">
-  <b>Thirusenthilkumar C</b>
-  <br/>
-  Full Stack Developer · UI/UX Enthusiast
-  <br/><br/>
-  <a href="https://github.com/ThirusenthilkumarC">
-    <img src="https://img.shields.io/badge/GitHub-Explore%20My%20Work-18181B?style=for-the-badge&logo=github"/>
-  </a>
-</p>I enjoy building modern web applications, exploring thoughtful UI/UX, and turning ideas into working digital experiences.
+</div>UI principles: Minimal • Futuristic • Responsive • Accessible • Interactive
 
 ---
 
-<p align="center">
-  <b>NOVA AI</b>
-  <br/>
-  <i>Designed to explore what comes next.</i>
-  <br/><br/>
-  <sub>Built with curiosity. Improved with every iteration.</sub>
-</p>
+🗺️ Roadmap
+
+- [x] React frontend foundation
+- [x] Express backend structure
+- [x] AI integration structure
+- [x] Voice interaction support
+- [x] Conversation history foundation
+- [x] Tamil and English interaction support
+- [ ] Further refine the cosmic UI and AI orb
+- [ ] Expand file and image understanding
+- [ ] Improve accessibility and automated tests
+- [ ] Complete production deployment
+
+<sub>Roadmap reflects development goals; completion should be verified against the current code.</sub>
+
+---
+
+🔐 Security
+
+- Keep API keys in backend environment variables.
+- Exclude ".env" files from Git.
+- Validate incoming API requests.
+- Configure CORS for trusted frontend origins.
+- Use HTTPS in production.
+- Avoid exposing sensitive information in error messages.
+
+---
+
+👨‍💻 Developer
+
+<div align="center"><img src="https://capsule-render.vercel.app/api?type=soft&color=0:111827,100:312E81&height=120&text=Thirusenthilkumar%20C&fontSize=32&fontColor=FFFFFF" width="100%" alt="Developer banner"/>Thirusenthilkumar C
+
+Full Stack Developer | UI/UX Enthusiast
+
+Building modern web experiences and exploring AI-powered applications.
+
+<a href="https://github.com/ThirusenthilkumarC">
+<img src="https://img.shields.io/badge/GitHub-Follow%20My%20Journey-181717?style=for-the-badge&logo=github" alt="GitHub profile"/>
+</a></div>---
+
+🤝 Contributing
+
+Ideas and improvements are welcome.
+
+1. Fork the repository.
+2. Create a feature branch.
+3. Implement your changes.
+4. Test the application.
+5. Submit a pull request.
+
+---
+
+📄 License
+
+Add a "LICENSE" file to the repository to specify the project's license.
+
+<div align="center"><img src="https://readme-typing-svg.demolab.com?font=Orbitron&weight=600&size=19&duration=3000&pause=1000&color=8B5CF6&center=true&vCenter=true&width=500&lines=THANKS+FOR+VISITING+NOVA+AI.;KEEP+BUILDING.+KEEP+EXPLORING." alt="Thank you"/>⭐ If you like the project, consider giving the repository a star!
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:00D4FF,50:6D28D9,100:090979&height=120&section=footer" width="100%" alt="Footer banner"/></div>
