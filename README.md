@@ -207,7 +207,7 @@ npm run dev
 
 <div align="center"><img src="https://capsule-render.vercel.app/api?type=soft&color=0:111827,100:312E81&height=120&text=Thirusenthilkumar%20C&fontSize=32&fontColor=FFFFFF" width="100%" alt="Developer banner"/>Thirusenthilkumar C
 
-Full Stack Developer | UI/UX Enthusiast
+Full Stack Developer | UI/UX Designer | Front-End Developer
 
 Building modern web experiences and exploring AI-powered applications.
 
